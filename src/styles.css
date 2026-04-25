@@ -5,16 +5,16 @@
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --ink: #283326;
-  --ink-soft: #52604d;
-  --soil: #7d5534;
-  --wheat: #c99a4a;
-  --flour: #f8f1e3;
-  --paper: #fffaf0;
-  --leaf: #63774f;
-  --charcoal: #171c16;
-  --border: rgba(40, 51, 38, 0.16);
-  --shadow: 0 28px 80px rgba(36, 28, 18, 0.18);
+  --ink: #321d0e;
+  --ink-soft: #675844;
+  --soil: #8a6846;
+  --wheat: #c49a5a;
+  --flour: #fbf6ed;
+  --paper: #fffdf7;
+  --leaf: #6b7f57;
+  --charcoal: #23180f;
+  --border: rgba(50, 29, 14, 0.16);
+  --shadow: 0 28px 80px rgba(58, 40, 20, 0.16);
 }
 
 * {
@@ -29,8 +29,9 @@ body {
   margin: 0;
   min-width: 320px;
   background:
-    radial-gradient(circle at 20% 10%, rgba(201, 154, 74, 0.16), transparent 24rem),
-    linear-gradient(180deg, #fff9ee 0%, #f6eddc 42%, #efe4d0 100%);
+    linear-gradient(120deg, rgba(107, 127, 87, 0.08) 0 1px, transparent 1px 22px),
+    radial-gradient(circle at 18% 8%, rgba(196, 154, 90, 0.15), transparent 24rem),
+    linear-gradient(180deg, #fffdf8 0%, #f8efe0 44%, #f1e4cf 100%);
 }
 
 body,
@@ -78,56 +79,60 @@ img {
 
 .site-header {
   align-items: center;
-  background: rgba(255, 250, 240, 0.88);
-  border: 1px solid rgba(40, 51, 38, 0.12);
+  background: rgba(255, 253, 247, 0.92);
+  border: 1px solid rgba(50, 29, 14, 0.1);
   border-radius: 8px;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 1rem;
+  gap: 1.2rem;
   left: clamp(1rem, 3vw, 2rem);
-  padding: 0.7rem;
+  padding: 0.45rem 0.7rem;
   position: fixed;
   right: clamp(1rem, 3vw, 2rem);
   top: 1rem;
   z-index: 20;
   backdrop-filter: blur(18px);
-  box-shadow: 0 16px 44px rgba(26, 21, 15, 0.1);
+  box-shadow: 0 16px 44px rgba(45, 30, 17, 0.11);
 }
 
 .brand-mark {
   align-items: center;
   display: inline-flex;
-  gap: 0.7rem;
-  min-width: 0;
-}
-
-.brand-symbol {
-  align-items: center;
-  background: var(--ink);
+  align-self: stretch;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(50, 29, 14, 0.09);
   border-radius: 8px;
-  color: #f7e8c8;
-  display: inline-flex;
-  flex: 0 0 auto;
-  height: 42px;
-  justify-content: center;
-  width: 42px;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: 0.24rem 0.85rem 0.24rem 0.42rem;
 }
 
-.brand-mark strong,
-.brand-mark small {
+.brand-logo {
   display: block;
+  height: 58px;
+  object-fit: contain;
+  width: 64px;
 }
 
-.brand-mark strong {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.02rem;
+.brand-copy {
+  display: grid;
   line-height: 1;
 }
 
-.brand-mark small {
-  color: var(--ink-soft);
-  font-size: 0.73rem;
-  margin-top: 0.2rem;
+.brand-copy strong {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.brand-copy small {
+  color: var(--soil);
+  font-family: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+  font-size: 1.28rem;
+  line-height: 0.82;
+  margin-left: 1.25rem;
 }
 
 .site-nav {
@@ -135,7 +140,7 @@ img {
   display: flex;
   gap: clamp(0.8rem, 2.4vw, 2rem);
   justify-content: center;
-  color: rgba(40, 51, 38, 0.78);
+  color: rgba(50, 29, 14, 0.72);
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -163,7 +168,7 @@ img {
 }
 
 .cart-button {
-  background: var(--ink);
+  background: #342113;
   color: #fff5dc;
   gap: 0.55rem;
   min-height: 42px;
@@ -184,7 +189,7 @@ img {
 }
 
 .icon-button {
-  background: rgba(40, 51, 38, 0.08);
+  background: rgba(50, 29, 14, 0.08);
   color: var(--ink);
   height: 42px;
   width: 42px;
@@ -219,8 +224,8 @@ img {
 
 .hero-overlay {
   background:
-    linear-gradient(90deg, rgba(21, 26, 17, 0.78) 0%, rgba(21, 26, 17, 0.48) 42%, rgba(21, 26, 17, 0.1) 100%),
-    linear-gradient(0deg, rgba(23, 28, 22, 0.48), rgba(23, 28, 22, 0.05) 54%);
+    linear-gradient(90deg, rgba(43, 27, 14, 0.78) 0%, rgba(54, 41, 25, 0.48) 42%, rgba(31, 24, 16, 0.06) 100%),
+    linear-gradient(0deg, rgba(27, 20, 12, 0.44), rgba(27, 20, 12, 0.02) 54%);
 }
 
 .hero-content {
@@ -264,10 +269,22 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(4.5rem, 10vw, 9rem);
+  font-size: clamp(4.35rem, 9.2vw, 8.3rem);
   line-height: 0.86;
   margin-bottom: 1.2rem;
-  max-width: 8ch;
+  max-width: 9ch;
+}
+
+h1 span {
+  color: #e3c37b;
+  display: block;
+  font-family: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+  font-size: 0.78em;
+  font-weight: 400;
+  line-height: 0.76;
+  margin-left: 1.05ch;
+  margin-top: 0.08em;
+  text-shadow: 0 8px 34px rgba(36, 26, 16, 0.36);
 }
 
 h2 {
@@ -385,7 +402,25 @@ h3 {
 }
 
 .product-section {
-  background: #fff9ed;
+  background:
+    linear-gradient(90deg, rgba(107, 127, 87, 0.09) 0 1px, transparent 1px 100%),
+    linear-gradient(180deg, #fffdf8 0%, #f7ecdb 100%);
+  background-size: 44px 100%, 100% 100%;
+  position: relative;
+}
+
+.product-section::before {
+  color: rgba(138, 104, 70, 0.22);
+  content: "grain  flour  table  mill";
+  font-family: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+  font-size: clamp(4rem, 12vw, 11rem);
+  left: 50%;
+  line-height: 0.7;
+  pointer-events: none;
+  position: absolute;
+  top: 1.4rem;
+  transform: translateX(-50%) rotate(-2deg);
+  white-space: nowrap;
 }
 
 .section-heading {
@@ -394,6 +429,8 @@ h3 {
   gap: 2rem;
   justify-content: space-between;
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .section-heading h2 {
@@ -402,7 +439,7 @@ h3 {
 
 .category-tabs {
   align-items: center;
-  background: rgba(40, 51, 38, 0.07);
+  background: rgba(255, 253, 247, 0.78);
   border: 1px solid var(--border);
   border-radius: 8px;
   display: flex;
@@ -419,7 +456,7 @@ h3 {
 }
 
 .category-tabs button.active {
-  background: var(--ink);
+  background: #342113;
   color: #fff7e8;
 }
 
@@ -427,64 +464,27 @@ h3 {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
+  z-index: 1;
 }
 
 .product-card {
-  background: #fffdf7;
+  background: rgba(255, 253, 247, 0.92);
   border: 1px solid var(--border);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  min-height: 440px;
+  min-height: 520px;
   overflow: hidden;
   box-shadow: 0 14px 44px rgba(55, 43, 29, 0.08);
 }
 
-.grain-visual {
-  align-items: center;
-  aspect-ratio: 1.9;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--grain), white 56%), #fff4d9),
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.55), transparent 32%);
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  overflow: hidden;
-  padding: 1.2rem;
-  position: relative;
-}
-
-.grain-visual::before {
-  background:
-    radial-gradient(ellipse at center, rgba(40, 51, 38, 0.16) 0 44%, transparent 46%),
-    radial-gradient(ellipse at center, rgba(40, 51, 38, 0.11) 0 38%, transparent 40%);
-  content: "";
-  height: 170px;
-  left: 50%;
-  opacity: 0.45;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%) rotate(-8deg);
-  width: 170px;
-}
-
-.grain-visual span {
-  background: color-mix(in srgb, var(--grain), #ffffff 18%);
-  border: 1px solid rgba(40, 51, 38, 0.08);
-  border-radius: 52% 48% 55% 45% / 58% 44% 56% 42%;
-  box-shadow: inset -6px -8px 18px rgba(87, 57, 25, 0.13);
-  height: clamp(62px, 9vw, 120px);
-  position: relative;
-  transform: rotate(-21deg);
-  z-index: 1;
-}
-
-.grain-visual span:nth-child(2) {
-  transform: rotate(12deg) translateY(14px);
-}
-
-.grain-visual span:nth-child(3) {
-  transform: rotate(-8deg) translateY(-10px);
+.product-photo {
+  aspect-ratio: 1.15;
+  border-bottom: 1px solid rgba(50, 29, 14, 0.11);
+  height: auto;
+  object-fit: cover;
+  width: 100%;
 }
 
 .product-card-body {
@@ -825,8 +825,8 @@ h3 {
 }
 
 .checkout-button.disabled {
-  background: rgba(40, 51, 38, 0.18);
-  color: rgba(40, 51, 38, 0.72);
+  background: rgba(50, 29, 14, 0.16);
+  color: rgba(50, 29, 14, 0.68);
 }
 
 .checkout-note {
@@ -905,7 +905,6 @@ h3 {
     padding: 0.8rem 0.4rem;
   }
 
-  .brand-mark small,
   .cart-button span {
     display: none;
   }
@@ -917,8 +916,8 @@ h3 {
 
   .hero-overlay {
     background:
-      linear-gradient(180deg, rgba(21, 26, 17, 0.32), rgba(21, 26, 17, 0.82)),
-      linear-gradient(90deg, rgba(21, 26, 17, 0.55), rgba(21, 26, 17, 0.18));
+      linear-gradient(180deg, rgba(43, 27, 14, 0.28), rgba(43, 27, 14, 0.82)),
+      linear-gradient(90deg, rgba(43, 27, 14, 0.55), rgba(43, 27, 14, 0.16));
   }
 
   h1 {
@@ -972,7 +971,25 @@ h3 {
     top: 0.6rem;
   }
 
-  .brand-symbol,
+  .brand-mark {
+    gap: 0.42rem;
+    padding: 0.1rem 0.45rem 0.1rem 0.25rem;
+  }
+
+  .brand-logo {
+    height: 42px;
+    width: 44px;
+  }
+
+  .brand-copy strong {
+    font-size: 0.92rem;
+  }
+
+  .brand-copy small {
+    font-size: 1.05rem;
+    margin-left: 0.95rem;
+  }
+
   .cart-button,
   .icon-button {
     height: 38px;

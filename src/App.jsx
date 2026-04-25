@@ -13,10 +13,16 @@ import {
   ShoppingBag,
   Sparkles,
   Sprout,
-  Wheat,
   X,
 } from "lucide-react";
 import heroImage from "./assets/mill-hero.png";
+import logoImage from "./assets/the-milled-table-logo.jpeg";
+import breadFlourImage from "./assets/products/bread-flour.jpg";
+import durumSemolinaImage from "./assets/products/durum-semolina.jpg";
+import einkornFlourImage from "./assets/products/einkorn-flour.jpg";
+import pastaBlendImage from "./assets/products/pasta-blend.jpg";
+import pastryFlourImage from "./assets/products/pastry-flour.jpg";
+import ryeFlourImage from "./assets/products/rye-flour.jpg";
 
 const shopifyDomain = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || "";
 
@@ -31,6 +37,7 @@ const products = [
     badge: "High gluten",
     flavor: "Creamy wheat, toasted crust, open crumb",
     color: "#b88f4d",
+    image: breadFlourImage,
     variantId: import.meta.env.VITE_SHOPIFY_BREAD_VARIANT_ID,
   },
   {
@@ -43,6 +50,7 @@ const products = [
     badge: "Pasta cut",
     flavor: "Golden color, firm bite, nutty finish",
     color: "#d9a93a",
+    image: durumSemolinaImage,
     variantId: import.meta.env.VITE_SHOPIFY_SEMOLINA_VARIANT_ID,
   },
   {
@@ -55,6 +63,7 @@ const products = [
     badge: "Ancient grain",
     flavor: "Delicate sweetness, soft crumb, buttery aroma",
     color: "#c17442",
+    image: einkornFlourImage,
     variantId: import.meta.env.VITE_SHOPIFY_EINKORN_VARIANT_ID,
   },
   {
@@ -67,6 +76,7 @@ const products = [
     badge: "Whole grain",
     flavor: "Earthy, malty, deep color",
     color: "#6f6149",
+    image: ryeFlourImage,
     variantId: import.meta.env.VITE_SHOPIFY_RYE_VARIANT_ID,
   },
   {
@@ -79,6 +89,7 @@ const products = [
     badge: "Silky dough",
     flavor: "Smooth sheet, sturdy noodle, warm grain",
     color: "#d1b45f",
+    image: pastaBlendImage,
     variantId: import.meta.env.VITE_SHOPIFY_PASTA_VARIANT_ID,
   },
   {
@@ -91,6 +102,7 @@ const products = [
     badge: "Low protein",
     flavor: "Tender cakes, biscuits, and laminated dough",
     color: "#d7c191",
+    image: pastryFlourImage,
     variantId: import.meta.env.VITE_SHOPIFY_PASTRY_VARIANT_ID,
   },
 ];
@@ -215,12 +227,10 @@ function App() {
     <div className="site-shell">
       <header className="site-header" data-open={menuOpen}>
         <a className="brand-mark" href="#top" aria-label="The Milled Table home">
-          <span className="brand-symbol">
-            <Wheat size={22} strokeWidth={1.9} />
-          </span>
-          <span>
-            <strong>The Milled Table</strong>
-            <small>Organic grain, fresh flour</small>
+          <img className="brand-logo" src={logoImage} alt="" />
+          <span className="brand-copy">
+            <strong>The Milled</strong>
+            <small>Table</small>
           </span>
         </a>
 
@@ -260,7 +270,10 @@ function App() {
               <Sprout size={16} />
               Organic grain, properly milled
             </p>
-            <h1>The Milled Table</h1>
+            <h1>
+              The Milled
+              <span>Table</span>
+            </h1>
             <p className="hero-copy">
               Fresh flour for bread, pasta, pastry, and daily baking, stone milled from organic
               whole grains selected for clean growing practices and deep flavor.
@@ -338,11 +351,7 @@ function App() {
           <div className="product-grid">
             {visibleProducts.map((product) => (
               <article className="product-card" key={product.id}>
-                <div className="grain-visual" style={{ "--grain": product.color }}>
-                  <span />
-                  <span />
-                  <span />
-                </div>
+                <img className="product-photo" src={product.image} alt={`${product.name} grains and flour`} />
                 <div className="product-card-body">
                   <div className="product-meta">
                     <span>{product.badge}</span>
