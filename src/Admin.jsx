@@ -230,6 +230,23 @@ function PostTable({ label, rows, onEdit, onDelete }) {
   );
 }
 
+// ── Media helpers ─────────────────────────────────────────────────────────────
+
+function isVideo(url) {
+  return /\.(mp4|mov|webm)(\?|$)/i.test(url);
+}
+
+function MediaThumb({ src, className = "" }) {
+  if (!src) return null;
+  if (isVideo(src)) {
+    return (
+      <video src={src} className={className} muted playsInline preload="metadata"
+        style={{ objectFit: "cover", width: "100%", height: "100%", display: "block" }} />
+    );
+  }
+  return <img src={src} alt="" className={className} style={{ objectFit: "cover", width: "100%", height: "100%", display: "block" }} />;
+}
+
 // ── Post editor ───────────────────────────────────────────────────────────────
 
 function PostEditor({ initial, token, onSave, onCancel }) {
@@ -241,6 +258,33 @@ function PostEditor({ initial, token, onSave, onCancel }) {
   );
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadErr, setUploadErr] = useState("");
+  const fileInputRef = React.useRef(null);
+
+  async function handleUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    setUploadErr("");
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const r = await fetch("/api/upload", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      });
+      if (!r.ok) throw new Error((await r.json()).error || "Upload failed");
+      const { url } = await r.json();
+      set("imageKey", url);
+    } catch (e) {
+      setUploadErr(e.message);
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  }
 
   function set(key, val) {
     setForm((f) => ({ ...f, [key]: val }));
@@ -356,16 +400,35 @@ function PostEditor({ initial, token, onSave, onCancel }) {
           </div>
         </div>
 
-        {/* Image */}
+        {/* Image / video */}
         <div className="acms-field">
-          <label>Image</label>
-          <input
-            value={form.imageKey}
-            onChange={(e) => set("imageKey", e.target.value)}
-            placeholder="Asset key (e.g. sourdough-loaf) or a full https:// image URL"
-          />
+          <label>Image or video</label>
+          <div className="acms-media-row">
+            <input
+              value={form.imageKey}
+              onChange={(e) => set("imageKey", e.target.value)}
+              placeholder="Paste a URL or upload a file →"
+            />
+            <label className={`acms-btn-sm acms-upload-label ${uploading ? "acms-uploading" : ""}`}>
+              {uploading ? "Uploading…" : "↑ Upload"}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif,image/avif,video/mp4,video/quicktime,video/webm"
+                style={{ display: "none" }}
+                onChange={handleUpload}
+                disabled={uploading}
+              />
+            </label>
+          </div>
+          {uploadErr && <span className="acms-upload-err">{uploadErr}</span>}
+          {form.imageKey && (
+            <div className="acms-media-preview">
+              <MediaThumb src={form.imageKey.startsWith("/") || form.imageKey.startsWith("http") ? form.imageKey : null} />
+            </div>
+          )}
           <span className="acms-hint">
-            Existing asset keys: sourdough-loaf, einkorn-bread, rye-bread, stone-mill, glyphosate-spray, sourdough-starter, artisan-bread, einkorn-grain, seasonal-produce
+            Built-in keys: sourdough-loaf, einkorn-bread, rye-bread, stone-mill, glyphosate-spray, sourdough-starter, artisan-bread, einkorn-grain, seasonal-produce
           </span>
         </div>
 
@@ -509,13 +572,111 @@ function PostEditor({ initial, token, onSave, onCancel }) {
   );
 }
 
+// ── Media library ─────────────────────────────────────────────────────────────
+
+function MediaLibrary({ token }) {
+  const [files, setFiles] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [copied, setCopied] = useState("");
+  const fileInputRef = React.useRef(null);
+
+  useEffect(() => {
+    fetch("/api/uploads", { headers: { Authorization: `Bearer ${token}` } })
+      .then((r) => r.json())
+      .then(setFiles)
+      .catch(() => {});
+  }, [token]);
+
+  async function handleUpload(e) {
+    const filesArr = Array.from(e.target.files);
+    if (!filesArr.length) return;
+    setUploading(true);
+    for (const file of filesArr) {
+      try {
+        const fd = new FormData();
+        fd.append("file", file);
+        const r = await fetch("/api/upload", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: fd,
+        });
+        if (r.ok) {
+          const item = await r.json();
+          const stat = { filename: item.filename, url: item.url, size: item.size, mtime: new Date() };
+          setFiles((f) => [stat, ...f]);
+        }
+      } catch {}
+    }
+    setUploading(false);
+    e.target.value = "";
+  }
+
+  function copyUrl(url) {
+    navigator.clipboard.writeText(url);
+    setCopied(url);
+    setTimeout(() => setCopied(""), 2000);
+  }
+
+  function formatSize(bytes) {
+    if (bytes > 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+    return `${Math.round(bytes / 1024)} KB`;
+  }
+
+  return (
+    <div className="acms-media-lib">
+      <div className="acms-list-toolbar">
+        <h2>Media Library <span className="acms-count">{files.length}</span></h2>
+        <label className={`acms-btn-primary ${uploading ? "acms-uploading" : ""}`} style={{ cursor: "pointer" }}>
+          {uploading ? "Uploading…" : "+ Upload files"}
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            accept="image/jpeg,image/png,image/webp,image/gif,image/avif,video/mp4,video/quicktime,video/webm"
+            style={{ display: "none" }}
+            onChange={handleUpload}
+            disabled={uploading}
+          />
+        </label>
+      </div>
+
+      {files.length === 0 ? (
+        <p className="acms-empty">No uploaded files yet. Upload images or videos above.</p>
+      ) : (
+        <div className="acms-media-grid">
+          {files.map((f) => (
+            <div key={f.filename} className="acms-media-card">
+              <div className="acms-media-card-thumb">
+                {isVideo(f.url)
+                  ? <video src={f.url} muted playsInline preload="metadata" />
+                  : <img src={f.url} alt={f.filename} />
+                }
+              </div>
+              <div className="acms-media-card-info">
+                <span className="acms-media-filename" title={f.filename}>{f.filename}</span>
+                <span className="acms-media-size">{formatSize(f.size)}</span>
+              </div>
+              <button
+                className={`acms-media-copy ${copied === f.url ? "acms-copied" : ""}`}
+                onClick={() => copyUrl(f.url)}
+              >
+                {copied === f.url ? "Copied!" : "Copy URL"}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Root admin app ────────────────────────────────────────────────────────────
 
 export default function Admin() {
   const [token, setToken] = useState("");
   const [verified, setVerified] = useState(false);
   const [checking, setChecking] = useState(true);
-  const [view, setView] = useState("list"); // 'list' | 'edit'
+  const [view, setView] = useState("list"); // 'list' | 'edit' | 'media'
   const [posts, setPosts] = useState([]);
   const [editing, setEditing] = useState(null);
   const [loadingPosts, setLoadingPosts] = useState(false);
@@ -590,13 +751,23 @@ export default function Admin() {
           <span>Content Manager</span>
         </div>
         <nav className="acms-header-nav">
-          <a href="/" target="_blank" rel="noopener noreferrer">↗ View site</a>
+          <button
+            className={`acms-nav-tab ${view !== "edit" && view !== "media" ? "active" : ""}`}
+            onClick={() => { setView("list"); setEditing(null); }}
+          >Posts</button>
+          <button
+            className={`acms-nav-tab ${view === "media" ? "active" : ""}`}
+            onClick={() => setView("media")}
+          >Media</button>
+          <a href="/" target="_blank" rel="noopener noreferrer">↗ Site</a>
           <button className="acms-btn-sm acms-btn-ghost" onClick={logout}>Log out</button>
         </nav>
       </header>
 
       <main className="acms-main">
-        {loadingPosts ? (
+        {view === "media" ? (
+          <MediaLibrary token={token} />
+        ) : loadingPosts ? (
           <p className="acms-loading">Loading posts…</p>
         ) : view === "list" ? (
           <PostList posts={posts} onNew={handleNew} onEdit={handleEdit} onDelete={handleDelete} />

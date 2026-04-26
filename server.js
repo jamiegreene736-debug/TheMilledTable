@@ -1,8 +1,9 @@
 import express from 'express';
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import { join, dirname } from 'path';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'fs';
+import { join, extname, basename, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
+import multer from 'multer';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -11,8 +12,31 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'localdev';
 const SECRET = process.env.JWT_SECRET || 'tmt-dev-secret-change-in-prod';
 const DATA_DIR = join(__dirname, 'data');
 const DATA_FILE = join(DATA_DIR, 'blogData.json');
+const UPLOAD_DIR = join(__dirname, 'uploads');
 
 mkdirSync(DATA_DIR, { recursive: true });
+mkdirSync(UPLOAD_DIR, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: UPLOAD_DIR,
+  filename: (_req, file, cb) => {
+    const ext = extname(file.originalname).toLowerCase();
+    const base = basename(file.originalname, ext)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .slice(0, 48);
+    cb(null, `${Date.now()}-${base}${ext}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 200 * 1024 * 1024 }, // 200 MB
+  fileFilter: (_req, file, cb) => {
+    const ok = /^(image\/(jpeg|png|webp|gif|avif)|video\/(mp4|quicktime|webm))$/.test(file.mimetype);
+    cb(ok ? null : new Error('Unsupported file type'), ok);
+  },
+});
 
 // Stateless HMAC token — valid as long as password + secret don't change
 function makeToken() {
@@ -36,6 +60,7 @@ function write(posts) {
 }
 
 app.use(express.json({ limit: '2mb' }));
+app.use('/uploads', express.static(UPLOAD_DIR));
 app.use(express.static(join(__dirname, 'dist')));
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
@@ -91,6 +116,42 @@ app.put('/api/posts-order', auth, (req, res) => {
   const ordered = slugs.map(s => posts.find(p => p.slug === s)).filter(Boolean);
   write(ordered);
   res.json({ ok: true });
+});
+
+// ── File upload ───────────────────────────────────────────────────────────────
+
+app.post('/api/upload', auth, (req, res, next) => {
+  upload.single('file')(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ error: `Upload error: ${err.message}` });
+    }
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    if (!req.file) return res.status(400).json({ error: 'No file received' });
+    res.json({
+      url: `/uploads/${req.file.filename}`,
+      filename: req.file.filename,
+      size: req.file.size,
+      mimetype: req.file.mimetype,
+    });
+  });
+});
+
+// ── List uploaded files ───────────────────────────────────────────────────────
+
+app.get('/api/uploads', auth, (_req, res) => {
+  try {
+    const files = readdirSync(UPLOAD_DIR)
+      .map((name) => {
+        const stat = statSync(join(UPLOAD_DIR, name));
+        return { filename: name, url: `/uploads/${name}`, size: stat.size, mtime: stat.mtime };
+      })
+      .sort((a, b) => new Date(b.mtime) - new Date(a.mtime));
+    res.json(files);
+  } catch {
+    res.json([]);
+  }
 });
 
 // ── SPA fallback ──────────────────────────────────────────────────────────────

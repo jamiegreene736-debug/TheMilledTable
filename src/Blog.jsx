@@ -39,6 +39,28 @@ function getImage(key) {
   return builtInImages[key] || null;
 }
 
+function isVideo(src) {
+  return src && /\.(mp4|mov|webm)(\?|$)/i.test(src);
+}
+
+function MediaEl({ src, alt, className }) {
+  if (!src) return null;
+  if (isVideo(src)) {
+    return (
+      <video
+        src={src}
+        className={className}
+        autoPlay
+        muted
+        loop
+        playsInline
+        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+      />
+    );
+  }
+  return <img src={src} alt={alt} />;
+}
+
 const categoryColors = {
   Bread:       { bg: "#f5ead5", color: "#7a4e1a" },
   Milling:     { bg: "#e8f0e0", color: "#3d5c28" },
@@ -79,7 +101,7 @@ function RecipeCard({ post, onSelect }) {
   const img = getImage(post.imageKey);
   return (
     <article className="blog-card recipe-card" onClick={() => onSelect(post.slug)}>
-      {img && <div className="blog-card-img"><img src={img} alt={post.title} /></div>}
+      {img && <div className="blog-card-img"><MediaEl src={img} alt={post.title} /></div>}
       <div className="blog-card-body">
         <div className="blog-card-header">
           <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
@@ -106,7 +128,7 @@ function ArticleCard({ post, onSelect }) {
   const img = getImage(post.imageKey);
   return (
     <article className="blog-card" onClick={() => onSelect(post.slug)}>
-      {img && <div className="blog-card-img"><img src={img} alt={post.title} /></div>}
+      {img && <div className="blog-card-img"><MediaEl src={img} alt={post.title} /></div>}
       <div className="blog-card-body">
         <div className="blog-card-header">
           <CategoryBadge category={post.category} />
@@ -137,7 +159,7 @@ function RecipeView({ post, onBack }) {
         </button>
       </div>
 
-      {img && <div className="blog-post-hero"><img src={img} alt={post.title} /></div>}
+      {img && <div className="blog-post-hero"><MediaEl src={img} alt={post.title} /></div>}
 
       <header className="blog-post-header">
         <div className="blog-post-header-meta">
@@ -234,7 +256,7 @@ function ArticleView({ post, onBack }) {
         </button>
       </div>
 
-      {img && <div className="blog-post-hero"><img src={img} alt={post.title} /></div>}
+      {img && <div className="blog-post-hero"><MediaEl src={img} alt={post.title} /></div>}
 
       <header className="blog-post-header">
         <div className="blog-post-header-meta">
