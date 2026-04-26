@@ -125,7 +125,7 @@ export default function Blog({ onClose }) {
         {!selectedPost && (
           <div className="blog-top-bar-title">
             <BookOpen size={18} />
-            <span>The Mill Notes</span>
+            <span>Organic Recipes & Blog</span>
           </div>
         )}
       </div>
@@ -137,7 +137,7 @@ export default function Blog({ onClose }) {
           <header className="blog-index-header">
             <p className="section-kicker">
               <BookOpen size={14} />
-              Mill Notes
+              Organic Recipes & Blog
             </p>
             <h1 className="blog-index-title">
               Organic cooking, clean grain,

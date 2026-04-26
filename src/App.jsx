@@ -266,7 +266,7 @@ function App() {
             onClick={() => { setMenuOpen(false); setShowBlog(true); window.scrollTo({ top: 0 }); }}
           >
             <BookOpen size={14} />
-            Mill Notes
+            Recipes & Blog
           </button>
           <a href="#contact" onClick={() => setMenuOpen(false)}>
             Contact
@@ -440,7 +440,7 @@ function App() {
           <div className="blog-teaser-copy">
             <p className="section-kicker">
               <BookOpen size={14} />
-              Mill Notes
+              Organic Recipes & Blog
             </p>
             <h2>Writing about grain, the way it should be grown, and what to do with it.</h2>
             <p>
@@ -454,7 +454,7 @@ function App() {
               type="button"
               onClick={() => { setShowBlog(true); window.scrollTo({ top: 0 }); }}
             >
-              Read Mill Notes
+              Recipes & Blog
               <ArrowRight size={17} />
             </button>
           </div>
@@ -482,7 +482,7 @@ function App() {
 
         <section className="newsletter-section" id="contact">
           <div>
-            <p className="section-kicker">Mill Notes</p>
+            <p className="section-kicker">Stay Connected</p>
             <h2>Fresh drops, lot notes, and wholesale milling updates.</h2>
           </div>
           <form
