@@ -10,7 +10,7 @@ import {
   Tag,
   UtensilsCrossed,
 } from "lucide-react";
-import { blogPosts } from "./blogData.js";
+import { blogPosts as staticPosts } from "./blogData.js";
 import sourdoughLoafImg    from "./assets/blog/sourdough-loaf.jpg";
 import einkornBreadImg     from "./assets/blog/einkorn-bread.jpg";
 import ryeBreadImg         from "./assets/blog/rye-bread.jpg";
@@ -21,7 +21,7 @@ import artisanBreadImg     from "./assets/blog/artisan-bread.jpg";
 import einkornGrainImg     from "./assets/blog/einkorn-grain.jpg";
 import seasonalProduceImg  from "./assets/blog/seasonal-produce.jpg";
 
-const postImages = {
+const builtInImages = {
   "sourdough-loaf":    sourdoughLoafImg,
   "einkorn-bread":     einkornBreadImg,
   "rye-bread":         ryeBreadImg,
@@ -32,6 +32,12 @@ const postImages = {
   "einkorn-grain":     einkornGrainImg,
   "seasonal-produce":  seasonalProduceImg,
 };
+
+function getImage(key) {
+  if (!key) return null;
+  if (key.startsWith("http") || key.startsWith("/")) return key;
+  return builtInImages[key] || null;
+}
 
 const categoryColors = {
   Bread:       { bg: "#f5ead5", color: "#7a4e1a" },
@@ -70,7 +76,7 @@ function DifficultyBadge({ difficulty }) {
 }
 
 function RecipeCard({ post, onSelect }) {
-  const img = postImages[post.imageKey];
+  const img = getImage(post.imageKey);
   return (
     <article className="blog-card recipe-card" onClick={() => onSelect(post.slug)}>
       {img && <div className="blog-card-img"><img src={img} alt={post.title} /></div>}
@@ -97,7 +103,7 @@ function RecipeCard({ post, onSelect }) {
 }
 
 function ArticleCard({ post, onSelect }) {
-  const img = postImages[post.imageKey];
+  const img = getImage(post.imageKey);
   return (
     <article className="blog-card" onClick={() => onSelect(post.slug)}>
       {img && <div className="blog-card-img"><img src={img} alt={post.title} /></div>}
@@ -121,7 +127,7 @@ function ArticleCard({ post, onSelect }) {
 }
 
 function RecipeView({ post, onBack }) {
-  const img = postImages[post.imageKey];
+  const img = getImage(post.imageKey);
   return (
     <article className="blog-post-view">
       <div className="blog-post-nav">
@@ -218,7 +224,7 @@ function RecipeView({ post, onBack }) {
 }
 
 function ArticleView({ post, onBack }) {
-  const img = postImages[post.imageKey];
+  const img = getImage(post.imageKey);
   return (
     <article className="blog-post-view">
       <div className="blog-post-nav">
@@ -270,6 +276,15 @@ const TABS = ["All", "Recipes", "Articles"];
 export default function Blog({ onClose }) {
   const [activePost, setActivePost] = React.useState(null);
   const [activeTab, setActiveTab] = React.useState("All");
+  const [blogPosts, setBlogPosts] = React.useState(staticPosts);
+
+  // Fetch live posts from the CMS API; silently fall back to static data
+  React.useEffect(() => {
+    fetch("/api/posts")
+      .then((r) => r.ok ? r.json() : Promise.reject())
+      .then((data) => { if (Array.isArray(data) && data.length) setBlogPosts(data); })
+      .catch(() => {});
+  }, []);
 
   const recipes  = blogPosts.filter((p) => p.type === "recipe");
   const articles = blogPosts.filter((p) => p.type === "article");

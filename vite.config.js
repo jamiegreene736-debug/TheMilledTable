@@ -7,5 +7,9 @@ export default defineConfig({
     watch: {
       ignored: ["**/tmp/**", "**/dist/**"],
     },
+    // Proxy API calls to Express when running `npm run server` alongside `npm run dev`
+    proxy: {
+      "/api": "http://localhost:3001",
+    },
   },
 });

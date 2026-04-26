@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import Admin from "./Admin.jsx";
 import {
   ArrowRight,
   BookOpen,
@@ -175,7 +176,7 @@ function LogoMark({ variant = "dark" }) {
   );
 }
 
-function App() {
+function Store() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
@@ -623,4 +624,7 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  if (window.location.pathname === "/admin") return <Admin />;
+  return <Store />;
+}
