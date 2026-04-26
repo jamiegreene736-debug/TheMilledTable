@@ -1,40 +1,84 @@
 import React from "react";
-import { ArrowLeft, ArrowRight, BookOpen, Calendar, Clock, Tag } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  Calendar,
+  ChefHat,
+  Clock,
+  ListOrdered,
+  Tag,
+  UtensilsCrossed,
+} from "lucide-react";
 import { blogPosts } from "./blogData.js";
 
 const categoryColors = {
-  Milling: { bg: "#e8f0e0", color: "#3d5c28" },
-  Standards: { bg: "#e0ead8", color: "#355225" },
-  Baking: { bg: "#f5ead5", color: "#7a4e1a" },
+  Bread:       { bg: "#f5ead5", color: "#7a4e1a" },
+  Milling:     { bg: "#e8f0e0", color: "#3d5c28" },
+  Standards:   { bg: "#e0ead8", color: "#355225" },
+  Baking:      { bg: "#f0e8d4", color: "#7a4e1a" },
   Ingredients: { bg: "#f0e8d8", color: "#6b4420" },
-  Grains: { bg: "#ede3d0", color: "#5c3d18" },
-  Cooking: { bg: "#e5dfd4", color: "#4d3920" },
+  Grains:      { bg: "#ede3d0", color: "#5c3d18" },
+  Cooking:     { bg: "#e5dfd4", color: "#4d3920" },
+};
+
+const difficultyColors = {
+  Beginner:     { bg: "#e4f0e0", color: "#2e5c22" },
+  Intermediate: { bg: "#f5ead5", color: "#7a4e1a" },
+  Advanced:     { bg: "#f5dfd5", color: "#7a2e1a" },
 };
 
 function CategoryBadge({ category }) {
-  const style = categoryColors[category] || { bg: "#ede8e0", color: "#4d3920" };
+  const s = categoryColors[category] || { bg: "#ede8e0", color: "#4d3920" };
   return (
-    <span className="blog-category" style={{ background: style.bg, color: style.color }}>
+    <span className="blog-category" style={{ background: s.bg, color: s.color }}>
       <Tag size={11} />
       {category}
     </span>
   );
 }
 
-function PostCard({ post, onSelect }) {
+function DifficultyBadge({ difficulty }) {
+  const s = difficultyColors[difficulty] || { bg: "#ede8e0", color: "#4d3920" };
+  return (
+    <span className="blog-category" style={{ background: s.bg, color: s.color }}>
+      <ChefHat size={11} />
+      {difficulty}
+    </span>
+  );
+}
+
+function RecipeCard({ post, onSelect }) {
+  return (
+    <article className="blog-card recipe-card" onClick={() => onSelect(post.slug)}>
+      <div className="blog-card-header">
+        <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+          <CategoryBadge category={post.category} />
+          <DifficultyBadge difficulty={post.difficulty} />
+        </div>
+      </div>
+      <h3>{post.title}</h3>
+      <p className="blog-excerpt">{post.excerpt}</p>
+      <div className="recipe-card-meta">
+        <span><Clock size={13} />{post.readTime}</span>
+        <span><UtensilsCrossed size={13} />{post.yield}</span>
+      </div>
+      <button className="blog-read-more" type="button">
+        View recipe
+        <ArrowRight size={15} />
+      </button>
+    </article>
+  );
+}
+
+function ArticleCard({ post, onSelect }) {
   return (
     <article className="blog-card" onClick={() => onSelect(post.slug)}>
       <div className="blog-card-header">
         <CategoryBadge category={post.category} />
         <div className="blog-card-meta">
-          <span>
-            <Calendar size={13} />
-            {post.date}
-          </span>
-          <span>
-            <Clock size={13} />
-            {post.readTime}
-          </span>
+          <span><Calendar size={13} />{post.date}</span>
+          <span><Clock size={13} />{post.readTime}</span>
         </div>
       </div>
       <h3>{post.title}</h3>
@@ -47,7 +91,101 @@ function PostCard({ post, onSelect }) {
   );
 }
 
-function PostView({ post, onBack }) {
+function RecipeView({ post, onBack }) {
+  return (
+    <article className="blog-post-view">
+      <div className="blog-post-nav">
+        <button className="blog-back-btn" type="button" onClick={onBack}>
+          <ArrowLeft size={16} />
+          All recipes
+        </button>
+      </div>
+
+      <header className="blog-post-header">
+        <div className="blog-post-header-meta">
+          <CategoryBadge category={post.category} />
+          <DifficultyBadge difficulty={post.difficulty} />
+        </div>
+        <h1 className="blog-post-title">{post.title}</h1>
+        <p className="blog-post-lede">{post.excerpt}</p>
+        <div className="recipe-stats">
+          <div className="recipe-stat">
+            <Clock size={18} />
+            <div>
+              <strong>Time</strong>
+              <span>{post.readTime}</span>
+            </div>
+          </div>
+          <div className="recipe-stat">
+            <UtensilsCrossed size={18} />
+            <div>
+              <strong>Yield</strong>
+              <span>{post.yield}</span>
+            </div>
+          </div>
+          <div className="recipe-stat">
+            <ChefHat size={18} />
+            <div>
+              <strong>Level</strong>
+              <span>{post.difficulty}</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="recipe-layout">
+        <aside className="recipe-ingredients">
+          <h2 className="recipe-section-title">
+            <UtensilsCrossed size={16} />
+            Ingredients
+          </h2>
+          {post.ingredients.map((group) => (
+            <div key={group.section} className="ingredient-group">
+              <h3>{group.section}</h3>
+              <ul>
+                {group.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </aside>
+
+        <div className="recipe-method">
+          <h2 className="recipe-section-title">
+            <ListOrdered size={16} />
+            Method
+          </h2>
+          {post.steps.map((step, i) => (
+            <div key={i} className="recipe-step">
+              <div className="step-number">{String(i + 1).padStart(2, "0")}</div>
+              <div className="step-body">
+                <h3>{step.heading}</h3>
+                <p>{step.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {post.notes && (
+        <div className="recipe-notes">
+          <strong>Baker's notes</strong>
+          <p>{post.notes}</p>
+        </div>
+      )}
+
+      <div className="blog-post-footer">
+        <p>
+          Questions about flour choices for this recipe?{" "}
+          <a href="mailto:hello@themilledtable.com">hello@themilledtable.com</a>
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function ArticleView({ post, onBack }) {
   return (
     <article className="blog-post-view">
       <div className="blog-post-nav">
@@ -60,14 +198,8 @@ function PostView({ post, onBack }) {
       <header className="blog-post-header">
         <div className="blog-post-header-meta">
           <CategoryBadge category={post.category} />
-          <span className="blog-post-date">
-            <Calendar size={13} />
-            {post.date}
-          </span>
-          <span className="blog-post-read">
-            <Clock size={13} />
-            {post.readTime}
-          </span>
+          <span className="blog-post-date"><Calendar size={13} />{post.date}</span>
+          <span className="blog-post-read"><Clock size={13} />{post.readTime}</span>
         </div>
         <h1 className="blog-post-title">{post.title}</h1>
         <p className="blog-post-lede">{post.excerpt}</p>
@@ -81,9 +213,7 @@ function PostView({ post, onBack }) {
               section.paragraphs.map((para, j) => <p key={j}>{para}</p>)}
             {section.list && (
               <ul className="blog-post-list">
-                {section.list.map((item, k) => (
-                  <li key={k}>{item}</li>
-                ))}
+                {section.list.map((item, k) => <li key={k}>{item}</li>)}
               </ul>
             )}
           </section>
@@ -100,8 +230,18 @@ function PostView({ post, onBack }) {
   );
 }
 
+const TABS = ["All", "Recipes", "Articles"];
+
 export default function Blog({ onClose }) {
   const [activePost, setActivePost] = React.useState(null);
+  const [activeTab, setActiveTab] = React.useState("All");
+
+  const recipes  = blogPosts.filter((p) => p.type === "recipe");
+  const articles = blogPosts.filter((p) => p.type === "article");
+  const visiblePosts =
+    activeTab === "Recipes"  ? recipes :
+    activeTab === "Articles" ? articles :
+    blogPosts;
 
   const selectedPost = blogPosts.find((p) => p.slug === activePost);
 
@@ -131,7 +271,9 @@ export default function Blog({ onClose }) {
       </div>
 
       {selectedPost ? (
-        <PostView post={selectedPost} onBack={handleBack} />
+        selectedPost.type === "recipe"
+          ? <RecipeView post={selectedPost} onBack={handleBack} />
+          : <ArticleView post={selectedPost} onBack={handleBack} />
       ) : (
         <div className="blog-index">
           <header className="blog-index-header">
@@ -144,16 +286,38 @@ export default function Blog({ onClose }) {
               <span> and the table it all leads to.</span>
             </h1>
             <p className="blog-index-sub">
-              Recipes, sourcing deep-dives, milling notes, and honest writing about what it
-              means to cook without shortcuts. No preservatives, no glyphosate, no mystery
-              ingredients.
+              Recipes using our stone-milled flours, alongside honest writing about organic
+              sourcing, fresh milling, and whole-grain cooking. No preservatives, no
+              glyphosate, no mystery ingredients.
             </p>
           </header>
 
-          <div className="blog-grid">
-            {blogPosts.map((post) => (
-              <PostCard key={post.slug} post={post} onSelect={handleSelectPost} />
+          <div className="blog-tabs">
+            {TABS.map((tab) => (
+              <button
+                key={tab}
+                className={`blog-tab ${activeTab === tab ? "active" : ""}`}
+                type="button"
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab === "Recipes" && <ChefHat size={14} />}
+                {tab === "Articles" && <BookOpen size={14} />}
+                {tab}
+                <span className="blog-tab-count">
+                  {tab === "All" ? blogPosts.length : tab === "Recipes" ? recipes.length : articles.length}
+                </span>
+              </button>
             ))}
+          </div>
+
+          <div className="blog-grid">
+            {visiblePosts.map((post) =>
+              post.type === "recipe" ? (
+                <RecipeCard key={post.slug} post={post} onSelect={handleSelectPost} />
+              ) : (
+                <ArticleCard key={post.slug} post={post} onSelect={handleSelectPost} />
+              )
+            )}
           </div>
         </div>
       )}

@@ -1,6 +1,196 @@
 export const blogPosts = [
+  // ─── RECIPES ────────────────────────────────────────────────
+  {
+    slug: "whole-wheat-sourdough-country-loaf",
+    type: "recipe",
+    title: "Whole Wheat Sourdough Country Loaf",
+    date: "April 22, 2026",
+    category: "Bread",
+    readTime: "14 hr total · 45 min active",
+    yield: "1 large loaf (approx. 900g)",
+    difficulty: "Intermediate",
+    excerpt:
+      "An open-crumb country loaf made with 80% stone-milled bread flour and 20% whole rye. Long cold fermentation does the work overnight — you shape it in the morning and bake before lunch.",
+    ingredients: [
+      {
+        section: "Levain (build night before)",
+        items: [
+          "20g active sourdough starter",
+          "40g stone-milled whole wheat flour",
+          "40g filtered water, room temperature",
+        ],
+      },
+      {
+        section: "Main dough",
+        items: [
+          "360g stone-milled bread flour (hard red spring wheat)",
+          "90g stone-milled whole rye flour",
+          "340g filtered water, divided (320g + 20g)",
+          "90g ripe levain (from above)",
+          "10g fine sea salt (no iodine)",
+        ],
+      },
+    ],
+    steps: [
+      {
+        heading: "Build the levain",
+        body: "The night before baking, mix 20g starter, 40g whole wheat flour, and 40g water in a small jar. Cover and leave at room temperature (21–24°C) for 10–12 hours until it has peaked and is just beginning to recede. It should be bubbly throughout, smell like ripe yogurt, and pass the float test.",
+      },
+      {
+        heading: "Autolyse",
+        body: "In a large bowl, combine 360g bread flour, 90g rye flour, and 320g water. Mix until no dry flour remains. Cover and rest for 45 minutes. This rest allows the flour to fully hydrate and begins gluten development without any effort.",
+      },
+      {
+        heading: "Add levain and salt",
+        body: "Add 90g ripe levain to the autolysed dough. Squeeze and fold until incorporated — about 3 minutes. Rest 30 minutes. Dissolve 10g salt in the remaining 20g water, add to the dough, and work in thoroughly with the same squeezing motion.",
+      },
+      {
+        heading: "Bulk fermentation with folds",
+        body: "Over the next 4–5 hours at room temperature, perform 4 sets of stretch-and-folds spaced 45 minutes apart. For each set: wet your hand, grab the dough from one side, stretch it up as high as it will go without tearing, then fold it over the centre. Rotate the bowl 90° and repeat four times around the bowl. After the final fold, leave the dough undisturbed until it has grown 50–75% and shows bubbles throughout.",
+      },
+      {
+        heading: "Pre-shape",
+        body: "Turn the dough onto an unfloured surface. Using a bench scraper, gently fold the edges in and drag the dough toward you to build surface tension. A tight, round skin should form. Rest uncovered for 25 minutes.",
+      },
+      {
+        heading: "Final shape",
+        body: "Lightly flour the top of the dough. Flip it over onto a lightly floured surface. Fold the bottom third up, the sides in, then roll toward you firmly. Place seam-side up in a floured banneton or a bowl lined with a well-floured cloth.",
+      },
+      {
+        heading: "Cold proof",
+        body: "Cover loosely and refrigerate for 10–14 hours (overnight). The cold retard develops flavor and makes scoring easier. You can bake directly from the fridge — no need to bring it to room temperature.",
+      },
+      {
+        heading: "Bake",
+        body: "Place a Dutch oven in your oven and preheat to 250°C (480°F) for at least 45 minutes. Turn the cold dough onto a piece of parchment. Score the top swiftly with a lame or sharp razor at a 30–45° angle. Lower into the Dutch oven using the parchment. Bake covered for 20 minutes, then uncover and continue baking for 22–26 minutes until the crust is a deep mahogany and the internal temperature reads 98–99°C. Cool on a wire rack for at least 1 hour before cutting.",
+      },
+    ],
+    notes:
+      "If you don't have a Dutch oven, bake on a preheated baking stone with a tray of boiling water on the rack below to generate steam for the first 15 minutes. The crust won't be quite as blistered but the crumb will be identical.",
+  },
+  {
+    slug: "einkorn-honey-oat-sandwich-loaf",
+    type: "recipe",
+    title: "Einkorn, Honey & Oat Sandwich Loaf",
+    date: "April 15, 2026",
+    category: "Bread",
+    readTime: "4 hr total · 30 min active",
+    yield: "1 standard loaf tin (900g / 2 lb)",
+    difficulty: "Beginner",
+    excerpt:
+      "A soft, golden sandwich loaf using heritage einkorn flour and raw honey. No commercial yeast — the starter does all the lifting. Slices cleanly, toasts beautifully, and stays tender for three days.",
+    ingredients: [
+      {
+        section: "Dough",
+        items: [
+          "300g heritage einkorn flour (sifted)",
+          "100g stone-milled whole wheat bread flour",
+          "260g whole milk, warmed to 38°C",
+          "80g active sourdough starter (100% hydration)",
+          "30g raw honey (local, unfiltered)",
+          "30g unsalted organic butter, softened",
+          "8g fine sea salt",
+        ],
+      },
+      {
+        section: "Pan prep & finish",
+        items: [
+          "Soft butter for greasing the tin",
+          "25g rolled oats (for topping)",
+          "1 tbsp whole milk (for brushing)",
+        ],
+      },
+    ],
+    steps: [
+      {
+        heading: "Mix the dough",
+        body: "Warm the milk to 38°C (just warm to the touch — hot milk kills the starter). Whisk in the honey and starter until smooth. Add both flours and the salt, mixing until a shaggy dough forms. It will feel stickier than modern wheat dough — this is normal for einkorn. Turn out and knead gently for 3–4 minutes until the dough comes together. Add the softened butter in small pieces and knead until fully incorporated. The dough will be smooth but won't pass a traditional windowpane test; einkorn gluten is weaker.",
+      },
+      {
+        heading: "Bulk rise",
+        body: "Place dough in a lightly oiled bowl, cover, and ferment at room temperature (22–24°C) until doubled — about 3–4 hours depending on starter activity. Einkorn ferments faster than modern wheat, so check at 2.5 hours. It's ready when it looks puffy and jiggly, and a poke with a floured finger springs back slowly.",
+      },
+      {
+        heading: "Shape",
+        body: "Grease your loaf tin generously. Gently press the dough into a rough rectangle on a lightly floured surface. Fold the long sides in to the centre, then roll from one short end into a tight log. Place seam-side down in the tin.",
+      },
+      {
+        heading: "Second rise",
+        body: "Cover loosely and proof at room temperature for 45–90 minutes until the dough has crowned about 2cm above the rim of the tin. It should jiggle gently when you tap the tin. Don't let it overproof — einkorn can go from perfect to collapsing quickly.",
+      },
+      {
+        heading: "Bake",
+        body: "Preheat oven to 190°C (375°F). Brush the top of the loaf gently with milk and scatter rolled oats evenly over the surface, pressing lightly to adhere. Bake for 35–40 minutes until deep golden brown and the internal temperature reads 96–97°C. Turn out immediately and cool completely on a rack before slicing — the crumb needs time to set.",
+      },
+    ],
+    notes:
+      "Raw honey gives better flavor than refined, and its mild antibacterial properties help the crumb stay fresh. Substitute maple syrup for a slightly earthier sweetness. If your starter is not very active, add an extra tablespoon and extend the bulk rise by 30–45 minutes.",
+  },
+  {
+    slug: "dark-rye-and-seed-bread",
+    type: "recipe",
+    title: "Dark Rye & Seed Bread",
+    date: "April 8, 2026",
+    category: "Bread",
+    readTime: "20 hr total · 30 min active",
+    yield: "1 small Pullman-style loaf (700g)",
+    difficulty: "Beginner",
+    excerpt:
+      "A dense, moist Scandinavian-style rye loaf packed with sunflower, pumpkin, and sesame seeds. No shaping skill required — it goes straight into the tin and bakes long and slow. Keeps for a week and gets better on day two.",
+    ingredients: [
+      {
+        section: "Soaker (night before)",
+        items: [
+          "100g whole rye berries (or coarse rye flakes)",
+          "50g sunflower seeds",
+          "50g pumpkin seeds",
+          "25g sesame seeds",
+          "200g boiling water",
+        ],
+      },
+      {
+        section: "Dough",
+        items: [
+          "350g stone-milled whole rye flour",
+          "150g stone-milled bread flour",
+          "350g warm water (40°C)",
+          "120g active rye sourdough starter (or whole wheat starter)",
+          "30g blackstrap molasses",
+          "12g fine sea salt",
+          "All of the soaker from above",
+        ],
+      },
+    ],
+    steps: [
+      {
+        heading: "Make the soaker",
+        body: "The evening before baking, combine rye berries (or flakes), sunflower seeds, pumpkin seeds, and sesame seeds in a bowl. Pour over 200g boiling water, stir, cover tightly, and leave at room temperature overnight. The seeds will absorb nearly all the water by morning.",
+      },
+      {
+        heading: "Mix the dough",
+        body: "In a large bowl, stir together the rye flour, bread flour, warm water, starter, and molasses until a thick, porridge-like batter forms — rye dough is not kneadable in the traditional sense. Add the salt and stir vigorously for 2 minutes. Fold in the entire soaker. The dough will be very dense and sticky.",
+      },
+      {
+        heading: "Pan and proof",
+        body: "Grease a small loaf tin thoroughly with butter and dust with rye flour or line with parchment. Scrape the dough in and smooth the top with a wet spatula. It will fill the tin about two-thirds. Cover loosely with oiled plastic wrap or a damp cloth. Proof at room temperature for 4–6 hours until the dough has risen just above the rim and small cracks appear on the surface.",
+      },
+      {
+        heading: "Bake",
+        body: "Preheat your oven to 200°C (390°F). Bake for 20 minutes at this temperature, then reduce to 170°C (340°F) and continue baking for 50–60 minutes. The bread is done when the internal temperature reads 98°C and it sounds hollow when tapped from the bottom. Turn out and cool completely on a rack — at least 2 hours. The crumb is still gummy when hot.",
+      },
+      {
+        heading: "Rest before slicing",
+        body: "Wrap the cooled loaf in a clean cloth and rest for at least 12 hours before cutting. This resting period allows the moisture to redistribute evenly and the crumb to firm up. Slice thin with a serrated knife. Store wrapped in cloth at room temperature for up to 7 days, or freeze sliced.",
+      },
+    ],
+    notes:
+      "Blackstrap molasses adds deep color and a faint bittersweet note that complements the rye. Substitute dark honey or omit entirely for a more neutral flavor. Rye bread is extremely tolerant of overproofing — if it looks a little sunken after baking, it still tastes fine and will improve by the next day.",
+  },
+
+  // ─── ARTICLES ───────────────────────────────────────────────
   {
     slug: "why-we-mill-our-own-flour",
+    type: "article",
     title: "Why We Mill Our Own Flour",
     date: "April 18, 2026",
     category: "Milling",
@@ -47,6 +237,7 @@ export const blogPosts = [
   },
   {
     slug: "glyphosate-in-wheat-what-bakers-should-know",
+    type: "article",
     title: "Glyphosate in Wheat: What Every Baker Should Know",
     date: "April 10, 2026",
     category: "Standards",
@@ -86,6 +277,7 @@ export const blogPosts = [
   },
   {
     slug: "sourdough-starter-from-scratch-with-whole-grain-flour",
+    type: "article",
     title: "Building a Sourdough Starter with Whole-Grain Flour",
     date: "April 3, 2026",
     category: "Baking",
@@ -96,7 +288,7 @@ export const blogPosts = [
       {
         paragraphs: [
           "Sourdough starter mythology tends toward the mystical — the old-world baker with a 200-year culture, the traveler who carried their starter across the ocean, the friend who swears theirs came from San Francisco. The biology is more democratic. Wild yeast and lactic acid bacteria are everywhere that grain is. A healthy starter is not a rare artifact. It's what flour and water become when you give them time.",
-          "That said, flour quality changes everything. A starter made from fresh-milled organic whole wheat flour will establish itself faster, ferment more actively, and produce more nuanced acid and aroma than one made from bleached all-purpose from a supermarket shelf. The reason is physical: wild yeast (Saccharomyces cerevisiae and related species) colonize the outer layers of grain. Strip those layers away, as industrial milling does, and you remove most of the yeast population. Whole-grain flour, especially fresh-milled, is teeming with microbial life.",
+          "That said, flour quality changes everything. A starter made from fresh-milled organic whole wheat flour will establish itself faster, ferment more actively, and produce more nuanced acid and aroma than one made from bleached all-purpose from a supermarket shelf. The reason is physical: wild yeast colonize the outer layers of grain. Strip those layers away, as industrial milling does, and you remove most of the yeast population. Whole-grain flour, especially fresh-milled, is teeming with microbial life.",
         ],
       },
       {
@@ -115,7 +307,7 @@ export const blogPosts = [
           "Day 1: Mix 50g flour and 50g water in your jar. Stir vigorously for 60 seconds to incorporate oxygen. Cover loosely and set in a warm spot. You'll see nothing interesting today.",
           "Day 2: Check for small bubbles near the surface or sides of the jar. They may be faint. This is bacterial activity warming up — not yet yeast-driven. Discard all but 50g of the mixture. Feed with 50g flour and 50g water. Stir well.",
           "Day 3–4: Activity should increase. The mixture may smell unpleasant — acetone, nail polish, or sour garbage are common at this stage as early microbial populations compete. This is normal. Discard and feed at the same time each day: keep 50g, add 50g flour and 50g water.",
-          "Day 5–6: The mix should now smell more pleasantly sour — yogurt, green apple, or mildly tangy. Bubble activity should peak a few hours after each feeding and then subside. This is the yeast establishing a rhythm.",
+          "Day 5–6: The mix should now smell more pleasantly sour — yogurt, green apple, or mildly tangy. Bubble activity should peak a few hours after each feeding and then subside.",
           "Day 7: Your starter is ready when it reliably doubles or triples in volume within 4–6 hours of a feeding, smells yeasty and pleasantly tangy, and passes the float test: a small spoonful dropped in water floats when the starter is at peak activity.",
           "If your starter stalls at day 4 or 5, try switching entirely to rye flour for two feedings. Rye is the most yeast-dense grain available and will jumpstart a sluggish culture reliably.",
         ],
@@ -132,6 +324,7 @@ export const blogPosts = [
   },
   {
     slug: "baking-without-preservatives",
+    type: "article",
     title: "Baking Without Preservatives: Shelf Life, Storage, and Trust",
     date: "March 27, 2026",
     category: "Ingredients",
@@ -159,7 +352,7 @@ export const blogPosts = [
           "Paper bag or linen cloth: preserves crust, allows some moisture loss — good for crusty country loaves",
           "Plastic bag or beeswax wrap: slows staling by trapping moisture — better for softer sandwich loaves but softens the crust",
           "Freezer, sliced before freezing: up to 3 months — individual slices can go directly from freezer to toaster",
-          "Fresh-milled flour: store in an airtight container in the freezer if you won't use it within 10–14 days at room temperature. The germ oils are nutritious and volatile.",
+          "Fresh-milled flour: store in an airtight container in the freezer if you won't use it within 10–14 days at room temperature.",
         ],
       },
       {
@@ -173,6 +366,7 @@ export const blogPosts = [
   },
   {
     slug: "einkorn-the-ancient-grain-that-changes-baking",
+    type: "article",
     title: "Einkorn: The Ancient Grain That Changes Baking",
     date: "March 20, 2026",
     category: "Grains",
@@ -190,28 +384,28 @@ export const blogPosts = [
         heading: "How Einkorn Is Different",
         paragraphs: [
           "Einkorn gluten is structurally different from modern wheat gluten. It is lower in gliadin-to-glutenin ratio, which means the dough is more extensible but less elastic — it stretches easily but doesn't spring back the same way. For bread bakers accustomed to modern high-gluten flour, einkorn dough feels slack and unfamiliar. It won't hold the same gas bubble structure. But for pastry, pasta, flatbreads, and pancakes, einkorn's tender gluten produces results that are richer and more fragrant than anything modern wheat delivers.",
-          "The flavor profile is distinct: nutty, buttery, with a gentle sweetness that doesn't require added sugar to express itself. Einkorn pancakes are golden and rich without any adjustments. Einkorn pasta is more tender than semolina-based versions while still holding its shape. Einkorn crackers taste like they were made with quality butter even when they weren't.",
+          "The flavor profile is distinct: nutty, buttery, with a gentle sweetness that doesn't require added sugar to express itself. Einkorn pancakes are golden and rich without any adjustments. Einkorn pasta is more tender than semolina-based versions while still holding its shape.",
         ],
       },
       {
         heading: "Digestibility",
         paragraphs: [
-          "There is genuine scientific interest in whether einkorn's different gluten structure makes it more digestible for people with non-celiac gluten sensitivity. The clinical literature is preliminary and not yet conclusive. Einkorn is not safe for people with celiac disease — it contains gluten proteins and will trigger an autoimmune response. But some people who experience discomfort with modern wheat tolerate einkorn well. If that describes you, the mechanism may have to do with the simpler protein structure, lower levels of certain gliadin fractions, or the higher antioxidant content of einkorn bran.",
+          "There is genuine scientific interest in whether einkorn's different gluten structure makes it more digestible for people with non-celiac gluten sensitivity. The clinical literature is preliminary and not yet conclusive. Einkorn is not safe for people with celiac disease — it contains gluten proteins and will trigger an autoimmune response. But some people who experience discomfort with modern wheat tolerate einkorn well.",
           "What is not in dispute: einkorn is higher in protein than most modern wheat varieties (around 17–18% vs 10–12% for typical bread flour), higher in lutein, and significantly higher in total antioxidant activity. Whether you're baking for flavor or for nutrition, these differences are real.",
         ],
       },
       {
         heading: "Baking with Einkorn",
         paragraphs: [
-          "Start by replacing 20–30% of your regular flour with einkorn in existing recipes. This is the easiest entry point — you'll notice a flavor improvement without needing to rethink your technique. The dough will be slightly more extensible, which in bread manifests as a flatter loaf with a more open crumb. Reduce your water by 5% and handle the dough more gently.",
+          "Start by replacing 20–30% of your regular flour with einkorn in existing recipes. This is the easiest entry point — you'll notice a flavor improvement without needing to rethink your technique. The dough will be slightly more extensible; reduce your water by 5% and handle the dough more gently.",
           "For 100% einkorn baking, use cold fermentation. Mix the dough, let it bulk ferment at room temperature for 3 hours, then refrigerate overnight. The cold slows fermentation while allowing full hydration of the bran particles, producing a more cohesive dough than you'd get with a short room-temperature rise. Bake in a Dutch oven for best oven spring.",
-          "For pasta, einkorn is exceptional. A 00-style einkorn flour (sifted finely) makes a pasta dough that is tender and golden and holds its shape through long boiling. Mix 100g einkorn flour with 1 large egg and a pinch of salt. Rest for 30 minutes. Roll thin and cut by hand for tagliatelle, or run through a pasta machine. Cook in heavily salted boiling water for 2–3 minutes. Finish in the pan with your sauce.",
         ],
       },
     ],
   },
   {
     slug: "seasonal-organic-cooking-eating-by-the-harvest",
+    type: "article",
     title: "Seasonal Organic Cooking: Eating by the Harvest",
     date: "March 14, 2026",
     category: "Cooking",
@@ -229,15 +423,15 @@ export const blogPosts = [
         heading: "Matching Grain to Season",
         paragraphs: [
           "Spring and summer are the right time for lighter flours: einkorn for pancakes and pasta, soft white wheat for pastry, semolina for cold pasta salads and grain bowls. The warmer months suit open crumb sourdoughs and flatbreads that move quickly from pan to plate.",
-          "Autumn and winter want rye. Dark and malty, rye flour comes alive in the cold months — slow sourdoughs with long cold ferments, dense seeded loaves that pair with aged cheese and smoked fish, honey-sweetened pumpernickel that stores for weeks and gets better with age. Rye is the grain of root cellars and long winters, and it bakes best when you're in no hurry.",
-          "Winter is also the time for porridge: whole cracked wheat berries simmered with oats, dried fruit, and a handful of salt. The best porridge grain is coarse-cracked hard wheat or rye — stone-cracked, not flaked, so it retains the germ and has chew. Simmer for 30 minutes, low and slow, and serve with honey and cream. No preservatives, no additives, no mystery ingredients.",
+          "Autumn and winter want rye. Dark and malty, rye flour comes alive in the cold months — slow sourdoughs with long cold ferments, dense seeded loaves that pair with aged cheese and smoked fish, honey-sweetened pumpernickel that stores for weeks and gets better with age.",
+          "Winter is also the time for porridge: whole cracked wheat berries simmered with oats, dried fruit, and a handful of salt. The best porridge grain is coarse-cracked hard wheat or rye — stone-cracked, not flaked, so it retains the germ and has chew. Simmer for 30 minutes, low and slow, and serve with honey and cream.",
         ],
       },
       {
         heading: "Cooking Without Shortcuts",
         paragraphs: [
           "Preservative-free cooking means accepting that food is perishable. That's not a limitation — it's the correct relationship with food. A loaf baked on Sunday is at its best on Monday. By Thursday it's toast. By the following Sunday it's breadcrumbs for the freezer. Everything has a best moment, and paying attention to it is the practice of cooking.",
-          "The same principle applies to oils, dairy, and produce. Organic unrefined oils go rancid faster than refined ones. Fresh-ground nut flours turn within a week at room temperature. Unpasteurized cheeses are alive and changing daily. None of this is a flaw. It's the flavor. Industrial food processes that extend shelf life are almost always trading quality for convenience — and it's a trade worth declining when you have the choice.",
+          "The same principle applies to oils, dairy, and produce. Organic unrefined oils go rancid faster than refined ones. Fresh-ground nut flours turn within a week at room temperature. Unpasteurized cheeses are alive and changing daily. None of this is a flaw. It's the flavor.",
           "At the Milled Table, we believe the kitchen is most honest when it stays close to whole ingredients, clean sourcing, and the rhythms of what's actually in season. That's what milling your own flour is about. It's not nostalgia. It's choosing to work with food that has a story worth knowing.",
         ],
       },
