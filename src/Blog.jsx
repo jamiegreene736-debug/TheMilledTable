@@ -11,22 +11,26 @@ import {
   UtensilsCrossed,
 } from "lucide-react";
 import { blogPosts } from "./blogData.js";
-import breadFlourImg   from "./assets/products/bread-flour.jpg";
-import durumImg        from "./assets/products/durum-semolina.jpg";
-import einkornImg      from "./assets/products/einkorn-flour.jpg";
-import pastaBlendImg   from "./assets/products/pasta-blend.jpg";
-import pastryFlourImg  from "./assets/products/pastry-flour.jpg";
-import ryeFlourImg     from "./assets/products/rye-flour.jpg";
-import heroImg         from "./assets/mill-hero.png";
+import sourdoughLoafImg    from "./assets/blog/sourdough-loaf.jpg";
+import einkornBreadImg     from "./assets/blog/einkorn-bread.jpg";
+import ryeBreadImg         from "./assets/blog/rye-bread.jpg";
+import stoneMillImg        from "./assets/blog/stone-mill.jpg";
+import glyphosateSprayImg  from "./assets/blog/glyphosate-spray.jpg";
+import sourdoughStarterImg from "./assets/blog/sourdough-starter.jpg";
+import artisanBreadImg     from "./assets/blog/artisan-bread.jpg";
+import einkornGrainImg     from "./assets/blog/einkorn-grain.jpg";
+import seasonalProduceImg  from "./assets/blog/seasonal-produce.jpg";
 
 const postImages = {
-  "bread-flour":  breadFlourImg,
-  "durum":        durumImg,
-  "einkorn-flour": einkornImg,
-  "pasta-blend":  pastaBlendImg,
-  "pastry-flour": pastryFlourImg,
-  "rye-flour":    ryeFlourImg,
-  "hero":         heroImg,
+  "sourdough-loaf":    sourdoughLoafImg,
+  "einkorn-bread":     einkornBreadImg,
+  "rye-bread":         ryeBreadImg,
+  "stone-mill":        stoneMillImg,
+  "glyphosate-spray":  glyphosateSprayImg,
+  "sourdough-starter": sourdoughStarterImg,
+  "artisan-bread":     artisanBreadImg,
+  "einkorn-grain":     einkornGrainImg,
+  "seasonal-produce":  seasonalProduceImg,
 };
 
 const categoryColors = {
