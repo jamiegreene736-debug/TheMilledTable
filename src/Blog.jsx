@@ -11,6 +11,23 @@ import {
   UtensilsCrossed,
 } from "lucide-react";
 import { blogPosts } from "./blogData.js";
+import breadFlourImg   from "./assets/products/bread-flour.jpg";
+import durumImg        from "./assets/products/durum-semolina.jpg";
+import einkornImg      from "./assets/products/einkorn-flour.jpg";
+import pastaBlendImg   from "./assets/products/pasta-blend.jpg";
+import pastryFlourImg  from "./assets/products/pastry-flour.jpg";
+import ryeFlourImg     from "./assets/products/rye-flour.jpg";
+import heroImg         from "./assets/mill-hero.png";
+
+const postImages = {
+  "bread-flour":  breadFlourImg,
+  "durum":        durumImg,
+  "einkorn-flour": einkornImg,
+  "pasta-blend":  pastaBlendImg,
+  "pastry-flour": pastryFlourImg,
+  "rye-flour":    ryeFlourImg,
+  "hero":         heroImg,
+};
 
 const categoryColors = {
   Bread:       { bg: "#f5ead5", color: "#7a4e1a" },
@@ -49,49 +66,58 @@ function DifficultyBadge({ difficulty }) {
 }
 
 function RecipeCard({ post, onSelect }) {
+  const img = postImages[post.imageKey];
   return (
     <article className="blog-card recipe-card" onClick={() => onSelect(post.slug)}>
-      <div className="blog-card-header">
-        <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
-          <CategoryBadge category={post.category} />
-          <DifficultyBadge difficulty={post.difficulty} />
+      {img && <div className="blog-card-img"><img src={img} alt={post.title} /></div>}
+      <div className="blog-card-body">
+        <div className="blog-card-header">
+          <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+            <CategoryBadge category={post.category} />
+            <DifficultyBadge difficulty={post.difficulty} />
+          </div>
         </div>
+        <h3>{post.title}</h3>
+        <p className="blog-excerpt">{post.excerpt}</p>
+        <div className="recipe-card-meta">
+          <span><Clock size={13} />{post.readTime}</span>
+          <span><UtensilsCrossed size={13} />{post.yield}</span>
+        </div>
+        <button className="blog-read-more" type="button">
+          View recipe
+          <ArrowRight size={15} />
+        </button>
       </div>
-      <h3>{post.title}</h3>
-      <p className="blog-excerpt">{post.excerpt}</p>
-      <div className="recipe-card-meta">
-        <span><Clock size={13} />{post.readTime}</span>
-        <span><UtensilsCrossed size={13} />{post.yield}</span>
-      </div>
-      <button className="blog-read-more" type="button">
-        View recipe
-        <ArrowRight size={15} />
-      </button>
     </article>
   );
 }
 
 function ArticleCard({ post, onSelect }) {
+  const img = postImages[post.imageKey];
   return (
     <article className="blog-card" onClick={() => onSelect(post.slug)}>
-      <div className="blog-card-header">
-        <CategoryBadge category={post.category} />
-        <div className="blog-card-meta">
-          <span><Calendar size={13} />{post.date}</span>
-          <span><Clock size={13} />{post.readTime}</span>
+      {img && <div className="blog-card-img"><img src={img} alt={post.title} /></div>}
+      <div className="blog-card-body">
+        <div className="blog-card-header">
+          <CategoryBadge category={post.category} />
+          <div className="blog-card-meta">
+            <span><Calendar size={13} />{post.date}</span>
+            <span><Clock size={13} />{post.readTime}</span>
+          </div>
         </div>
+        <h3>{post.title}</h3>
+        <p className="blog-excerpt">{post.excerpt}</p>
+        <button className="blog-read-more" type="button">
+          Read article
+          <ArrowRight size={15} />
+        </button>
       </div>
-      <h3>{post.title}</h3>
-      <p className="blog-excerpt">{post.excerpt}</p>
-      <button className="blog-read-more" type="button">
-        Read article
-        <ArrowRight size={15} />
-      </button>
     </article>
   );
 }
 
 function RecipeView({ post, onBack }) {
+  const img = postImages[post.imageKey];
   return (
     <article className="blog-post-view">
       <div className="blog-post-nav">
@@ -100,6 +126,8 @@ function RecipeView({ post, onBack }) {
           All recipes
         </button>
       </div>
+
+      {img && <div className="blog-post-hero"><img src={img} alt={post.title} /></div>}
 
       <header className="blog-post-header">
         <div className="blog-post-header-meta">
@@ -186,6 +214,7 @@ function RecipeView({ post, onBack }) {
 }
 
 function ArticleView({ post, onBack }) {
+  const img = postImages[post.imageKey];
   return (
     <article className="blog-post-view">
       <div className="blog-post-nav">
@@ -194,6 +223,8 @@ function ArticleView({ post, onBack }) {
           All articles
         </button>
       </div>
+
+      {img && <div className="blog-post-hero"><img src={img} alt={post.title} /></div>}
 
       <header className="blog-post-header">
         <div className="blog-post-header-meta">

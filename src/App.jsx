@@ -167,9 +167,9 @@ function buildShopifyCartUrl(cart) {
 
 function LogoMark({ variant = "dark" }) {
   return (
-    <span className={`logo-mark logo-mark--${variant}`} aria-label="Milled Table">
+    <span className={`logo-mark logo-mark--${variant}`} aria-label="The Milled Table">
+      <span className="logo-the">The</span>
       <span className="logo-milled">Milled</span>
-      <span className="logo-rule" />
       <span className="logo-table">Table</span>
     </span>
   );

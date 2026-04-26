@@ -3,6 +3,7 @@ export const blogPosts = [
   {
     slug: "whole-wheat-sourdough-country-loaf",
     type: "recipe",
+    imageKey: "bread-flour",
     title: "Whole Wheat Sourdough Country Loaf",
     date: "April 22, 2026",
     category: "Bread",
@@ -71,6 +72,7 @@ export const blogPosts = [
   {
     slug: "einkorn-honey-oat-sandwich-loaf",
     type: "recipe",
+    imageKey: "einkorn-flour",
     title: "Einkorn, Honey & Oat Sandwich Loaf",
     date: "April 15, 2026",
     category: "Bread",
@@ -129,6 +131,7 @@ export const blogPosts = [
   {
     slug: "dark-rye-and-seed-bread",
     type: "recipe",
+    imageKey: "rye-flour",
     title: "Dark Rye & Seed Bread",
     date: "April 8, 2026",
     category: "Bread",
@@ -191,6 +194,7 @@ export const blogPosts = [
   {
     slug: "why-we-mill-our-own-flour",
     type: "article",
+    imageKey: "hero",
     title: "Why We Mill Our Own Flour",
     date: "April 18, 2026",
     category: "Milling",
@@ -238,6 +242,7 @@ export const blogPosts = [
   {
     slug: "glyphosate-in-wheat-what-bakers-should-know",
     type: "article",
+    imageKey: "bread-flour",
     title: "Glyphosate in Wheat: What Every Baker Should Know",
     date: "April 10, 2026",
     category: "Standards",
@@ -278,6 +283,7 @@ export const blogPosts = [
   {
     slug: "sourdough-starter-from-scratch-with-whole-grain-flour",
     type: "article",
+    imageKey: "rye-flour",
     title: "Building a Sourdough Starter with Whole-Grain Flour",
     date: "April 3, 2026",
     category: "Baking",
@@ -325,6 +331,7 @@ export const blogPosts = [
   {
     slug: "baking-without-preservatives",
     type: "article",
+    imageKey: "pastry-flour",
     title: "Baking Without Preservatives: Shelf Life, Storage, and Trust",
     date: "March 27, 2026",
     category: "Ingredients",
@@ -367,6 +374,7 @@ export const blogPosts = [
   {
     slug: "einkorn-the-ancient-grain-that-changes-baking",
     type: "article",
+    imageKey: "einkorn-flour",
     title: "Einkorn: The Ancient Grain That Changes Baking",
     date: "March 20, 2026",
     category: "Grains",
@@ -406,6 +414,7 @@ export const blogPosts = [
   {
     slug: "seasonal-organic-cooking-eating-by-the-harvest",
     type: "article",
+    imageKey: "pasta-blend",
     title: "Seasonal Organic Cooking: Eating by the Harvest",
     date: "March 14, 2026",
     category: "Cooking",
