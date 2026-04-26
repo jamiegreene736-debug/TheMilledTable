@@ -236,45 +236,63 @@ function App() {
 
   return (
     <div className="site-shell">
-      <header className="site-header" data-open={menuOpen}>
+      <header className="site-header">
+        <button className="icon-button menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Open menu">
+          <Menu size={22} />
+        </button>
+
         <a className="brand-mark" href="#top" aria-label="The Milled Table home">
           <img className="brand-logo" src={logoImage} alt="The Milled Table" />
         </a>
 
-        <button className="icon-button menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          <span className="sr-only">Menu</span>
-        </button>
-
         <nav className="site-nav" aria-label="Main navigation">
-          <a href="#flours" onClick={() => setMenuOpen(false)}>
-            Flours
-          </a>
-          <a href="#milling" onClick={() => setMenuOpen(false)}>
-            Milling
-          </a>
-          <a href="#standards" onClick={() => setMenuOpen(false)}>
-            Standards
-          </a>
+          <a href="#flours">Flours</a>
+          <a href="#milling">Milling</a>
+          <a href="#standards">Standards</a>
           <button
             className="site-nav-blog-btn"
             type="button"
-            onClick={() => { setMenuOpen(false); setShowBlog(true); window.scrollTo({ top: 0 }); }}
+            onClick={() => { setShowBlog(true); window.scrollTo({ top: 0 }); }}
           >
             <BookOpen size={14} />
             Recipes & Blog
           </button>
-          <a href="#contact" onClick={() => setMenuOpen(false)}>
-            Contact
-          </a>
+          <a href="#contact">Contact</a>
         </nav>
 
         <button className="cart-button" type="button" onClick={() => setCartOpen(true)}>
           <ShoppingBag size={18} />
-          <span>Basket</span>
+          <span className="cart-label">Basket</span>
           <strong>{itemCount}</strong>
         </button>
       </header>
+
+      {/* Mobile full-screen menu overlay */}
+      <div className="mobile-menu" data-open={menuOpen} aria-hidden={!menuOpen}>
+        <div className="mobile-menu-top">
+          <img className="mobile-menu-logo" src={logoImage} alt="The Milled Table" />
+          <button className="mobile-menu-close" type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu">
+            <X size={26} />
+          </button>
+        </div>
+        <nav className="mobile-menu-nav">
+          <a href="#flours" onClick={() => setMenuOpen(false)}>Flours</a>
+          <a href="#milling" onClick={() => setMenuOpen(false)}>Milling</a>
+          <a href="#standards" onClick={() => setMenuOpen(false)}>Standards</a>
+          <button
+            type="button"
+            onClick={() => { setMenuOpen(false); setShowBlog(true); window.scrollTo({ top: 0 }); }}
+          >
+            <BookOpen size={18} />
+            Recipes & Blog
+          </button>
+          <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
+        </nav>
+        <div className="mobile-menu-footer">
+          <a href="mailto:hello@themilledtable.com">hello@themilledtable.com</a>
+          <span>· Organic grain, properly milled ·</span>
+        </div>
+      </div>
 
       <main id="top">
         <section className="hero-section" aria-label="The Milled Table">
@@ -388,6 +406,12 @@ function App() {
           </div>
         </section>
 
+        <div className="photo-strip" aria-hidden="true">
+          {[breadFlourImage, ryeFlourImage, einkornFlourImage, durumSemolinaImage, pastryFlourImage, pastaBlendImage].map((img, i) => (
+            <img key={i} src={img} alt="" className="strip-photo" />
+          ))}
+        </div>
+
         <section className="milling-section" id="milling">
           <div className="milling-copy">
             <p className="section-kicker">Proper Milling</p>
@@ -410,25 +434,33 @@ function App() {
         </section>
 
         <section className="use-section">
-          <div className="use-panel">
-            <div>
-              <p className="section-kicker">For Bread</p>
-              <h2>Strength, aroma, and a crust worth waiting for.</h2>
+          <div className="use-panel" style={{ backgroundImage: `url(${breadFlourImage})` }}>
+            <div className="use-panel-scrim" />
+            <div className="use-panel-inner">
+              <div>
+                <p className="section-kicker">For Bread</p>
+                <h2>Strength, aroma, and a crust worth waiting for.</h2>
+              </div>
+              <p>
+                Hard wheat flours are milled for sourdough, enriched dough, focaccia, pizza, and
+                everyday loaves where protein and flavor both matter.
+              </p>
+              <a className="use-panel-cta" href="#flours">Shop bread flours <ArrowRight size={15} /></a>
             </div>
-            <p>
-              Hard wheat flours are milled for sourdough, enriched dough, focaccia, pizza, and
-              everyday loaves where protein and flavor both matter.
-            </p>
           </div>
-          <div className="use-panel accent">
-            <div>
-              <p className="section-kicker">For Pasta</p>
-              <h2>Golden semolina and blends for dough that holds its shape.</h2>
+          <div className="use-panel accent" style={{ backgroundImage: `url(${durumSemolinaImage})` }}>
+            <div className="use-panel-scrim" />
+            <div className="use-panel-inner">
+              <div>
+                <p className="section-kicker">For Pasta</p>
+                <h2>Golden semolina and blends for dough that holds its shape.</h2>
+              </div>
+              <p>
+                Durum and pasta-focused blends bring structure to extruded shapes, fresh sheets,
+                gnocchi, and hand-cut noodles.
+              </p>
+              <a className="use-panel-cta" href="#flours">Shop pasta flours <ArrowRight size={15} /></a>
             </div>
-            <p>
-              Durum and pasta-focused blends bring structure to extruded shapes, fresh sheets,
-              gnocchi, and hand-cut noodles.
-            </p>
           </div>
         </section>
 
