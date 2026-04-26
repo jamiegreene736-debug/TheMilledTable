@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import {
   ArrowRight,
+  BookOpen,
   Check,
   ChevronRight,
   Flame,
@@ -15,6 +16,7 @@ import {
   Sprout,
   X,
 } from "lucide-react";
+import Blog from "./Blog.jsx";
 import heroImage from "./assets/mill-hero.png";
 import logoImage from "./assets/the-milled-table-logo.jpeg";
 import breadFlourImage from "./assets/products/bread-flour.jpg";
@@ -170,6 +172,7 @@ function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [notice, setNotice] = useState("");
+  const [showBlog, setShowBlog] = useState(false);
 
   const visibleProducts = useMemo(() => {
     if (activeCategory === "All") return products;
@@ -223,6 +226,14 @@ function App() {
     window.setTimeout(() => setNotice(""), 2400);
   }
 
+  if (showBlog) {
+    return (
+      <div className="site-shell">
+        <Blog onClose={() => { setShowBlog(false); window.scrollTo({ top: 0 }); }} />
+      </div>
+    );
+  }
+
   return (
     <div className="site-shell">
       <header className="site-header" data-open={menuOpen}>
@@ -249,6 +260,14 @@ function App() {
           <a href="#standards" onClick={() => setMenuOpen(false)}>
             Standards
           </a>
+          <button
+            className="site-nav-blog-btn"
+            type="button"
+            onClick={() => { setMenuOpen(false); setShowBlog(true); window.scrollTo({ top: 0 }); }}
+          >
+            <BookOpen size={14} />
+            Mill Notes
+          </button>
           <a href="#contact" onClick={() => setMenuOpen(false)}>
             Contact
           </a>
@@ -414,6 +433,50 @@ function App() {
               Durum and pasta-focused blends bring structure to extruded shapes, fresh sheets,
               gnocchi, and hand-cut noodles.
             </p>
+          </div>
+        </section>
+
+        <section className="blog-teaser-section">
+          <div className="blog-teaser-copy">
+            <p className="section-kicker">
+              <BookOpen size={14} />
+              Mill Notes
+            </p>
+            <h2>Writing about grain, the way it should be grown, and what to do with it.</h2>
+            <p>
+              No preservatives. No glyphosate desiccation. No mystery additives. Our blog
+              covers organic sourcing, fresh milling, sourdough technique, ancient grains,
+              and seasonal whole-grain cooking — honest writing for people who care about
+              what goes on the table.
+            </p>
+            <button
+              className="primary-action blog-teaser-btn"
+              type="button"
+              onClick={() => { setShowBlog(true); window.scrollTo({ top: 0 }); }}
+            >
+              Read Mill Notes
+              <ArrowRight size={17} />
+            </button>
+          </div>
+          <div className="blog-teaser-topics">
+            {[
+              { label: "Why we mill our own flour", sub: "Fresh vs. shelf — the real difference" },
+              { label: "Glyphosate in wheat", sub: "What pre-harvest desiccation means for your bread" },
+              { label: "Sourdough from scratch", sub: "Building a starter with whole-grain flour" },
+              { label: "Baking without preservatives", sub: "Storage, shelf life, and trust" },
+              { label: "Einkorn: the ancient grain", sub: "10,000 years of flavor, unchanged" },
+              { label: "Seasonal grain cooking", sub: "Eating by the harvest calendar" },
+            ].map((topic) => (
+              <button
+                key={topic.label}
+                className="blog-topic-chip"
+                type="button"
+                onClick={() => { setShowBlog(true); window.scrollTo({ top: 0 }); }}
+              >
+                <strong>{topic.label}</strong>
+                <span>{topic.sub}</span>
+              </button>
+            ))}
           </div>
         </section>
 
