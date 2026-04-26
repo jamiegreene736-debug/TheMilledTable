@@ -83,28 +83,76 @@ img {
   overflow: hidden;
 }
 
+/* ─── Logo wordmark ──────────────────────────────────────────── */
+
+.logo-mark {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+.logo-milled {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.logo-rule {
+  background: var(--wheat);
+  display: block;
+  height: 1.5px;
+  margin: 5px 0 4px;
+  width: calc(100% + 4px);
+  border-radius: 1px;
+}
+
+.logo-table {
+  color: var(--soil);
+  font-family: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+  font-size: 28px;
+  line-height: 0.88;
+}
+
+/* Light variant — for dark overlay menu */
+.logo-mark--light .logo-milled {
+  color: rgba(255, 246, 230, 0.95);
+}
+.logo-mark--light .logo-rule {
+  background: rgba(196, 154, 90, 0.7);
+}
+.logo-mark--light .logo-table {
+  color: #e8c97a;
+}
+
 /* ─── Desktop header (floating pill) ────────────────────────── */
 
 .site-header {
   align-items: center;
-  background: rgba(253, 248, 238, 0.94);
-  border: 1px solid rgba(196, 154, 90, 0.22);
+  background: rgba(253, 248, 238, 0.96);
+  border: 1px solid rgba(196, 154, 90, 0.26);
   border-radius: 10px;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 1.2rem;
+  gap: 1.4rem;
   left: clamp(1rem, 3vw, 2rem);
-  padding: 0.35rem 0.7rem;
+  padding: 0.6rem 1rem;
   position: fixed;
   right: clamp(1rem, 3vw, 2rem);
   top: 1rem;
   z-index: 20;
   backdrop-filter: blur(22px);
   box-shadow:
-    0 2px 0 rgba(196, 154, 90, 0.18) inset,
-    0 16px 48px rgba(45, 30, 17, 0.13);
+    0 1px 0 rgba(196, 154, 90, 0.15) inset,
+    0 14px 44px rgba(45, 30, 17, 0.12);
 }
 
+/* hamburger — hidden on desktop, shown on mobile */
 .menu-button {
   display: none;
 }
@@ -112,18 +160,7 @@ img {
 .brand-mark {
   align-items: center;
   display: inline-flex;
-  align-self: stretch;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(196, 154, 90, 0.2);
-  border-radius: 8px;
-  padding: 0.15rem 0.45rem;
-}
-
-.brand-logo {
-  display: block;
-  height: 82px;
-  object-fit: contain;
-  width: 88px;
+  padding: 0.1rem 0.2rem;
 }
 
 .site-nav {
@@ -131,7 +168,7 @@ img {
   display: flex;
   gap: clamp(0.8rem, 2.4vw, 2rem);
   justify-content: center;
-  color: rgba(43, 29, 14, 0.65);
+  color: rgba(43, 29, 14, 0.6);
   font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -139,7 +176,7 @@ img {
 
 .site-nav a {
   border-radius: 6px;
-  padding: 0.6rem 0.25rem;
+  padding: 0.55rem 0.2rem;
   transition: color 120ms;
 }
 
@@ -147,60 +184,72 @@ img {
   color: var(--ink);
 }
 
-/* ─── Mobile full-screen overlay menu ───────────────────────── */
+/* ─── Mobile header & full-screen overlay ────────────────────── */
 
 .mobile-menu {
-  display: none;
+  display: none; /* desktop: hidden */
 }
 
 @media (max-width: 760px) {
-  /* Header becomes edge-to-edge on mobile */
   .site-header {
-    align-items: center;
     border-radius: 0;
     border-left: 0;
     border-right: 0;
     border-top: 0;
-    border-bottom: 1px solid rgba(196, 154, 90, 0.25);
-    box-shadow: 0 4px 18px rgba(45, 30, 17, 0.1);
+    border-bottom: 1px solid rgba(196, 154, 90, 0.28);
+    box-shadow: 0 3px 16px rgba(45, 30, 17, 0.09);
     display: grid;
-    grid-template-columns: 52px 1fr 52px;
+    grid-template-columns: 56px 1fr 56px;
     gap: 0;
     left: 0;
-    padding: 0.45rem 0.75rem;
+    padding: 0.7rem 0.8rem;
     right: 0;
     top: 0;
   }
 
+  /* ☰ Hamburger — left column */
   .menu-button {
-    display: inline-flex;
+    align-items: center;
+    background: rgba(43, 29, 14, 0.07);
+    border-radius: 8px;
+    color: var(--ink);
+    display: inline-flex !important;
     grid-column: 1;
     grid-row: 1;
-    background: transparent;
-    color: var(--ink);
-    height: 44px;
-    width: 44px;
+    height: 42px;
+    justify-content: center;
     justify-self: start;
+    width: 42px;
   }
 
+  .menu-button:active {
+    background: rgba(43, 29, 14, 0.14);
+  }
+
+  /* Logo — center column */
   .brand-mark {
     background: transparent;
     border: 0;
     grid-column: 2;
     grid-row: 1;
     justify-self: center;
-    padding: 0.2rem;
   }
 
-  .brand-logo {
-    height: 70px;
-    width: 76px;
+  .brand-mark .logo-milled {
+    font-size: 11px;
+    letter-spacing: 4px;
   }
 
+  .brand-mark .logo-table {
+    font-size: 24px;
+  }
+
+  /* Desktop nav — hidden on mobile (overlay takes over) */
   .site-nav {
-    display: none; /* replaced by full-screen overlay on mobile */
+    display: none;
   }
 
+  /* Cart — right column */
   .cart-button {
     grid-column: 3;
     grid-row: 1;
@@ -211,21 +260,21 @@ img {
     display: none;
   }
 
-  /* Full-screen overlay */
+  /* ── Full-screen dark overlay ──────────────────────────────── */
   .mobile-menu {
     display: flex;
     flex-direction: column;
     background:
-      radial-gradient(ellipse at 20% 85%, rgba(196, 154, 90, 0.12), transparent 50%),
-      radial-gradient(ellipse at 80% 15%, rgba(92, 114, 69, 0.1), transparent 45%),
+      radial-gradient(ellipse at 20% 80%, rgba(196, 154, 90, 0.14), transparent 50%),
+      radial-gradient(ellipse at 80% 18%, rgba(92, 114, 69, 0.1), transparent 45%),
       #1e1409;
     inset: 0;
     position: fixed;
     z-index: 30;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-6px);
-    transition: opacity 220ms ease, transform 220ms ease;
+    transform: translateY(-8px);
+    transition: opacity 240ms ease, transform 240ms ease;
   }
 
   .mobile-menu[data-open="true"] {
@@ -239,14 +288,8 @@ img {
     border-bottom: 1px solid rgba(255, 246, 230, 0.1);
     display: flex;
     justify-content: space-between;
-    padding: 0.7rem 1.1rem;
-  }
-
-  .mobile-menu-logo {
-    height: 68px;
-    object-fit: contain;
-    opacity: 0.9;
-    width: 72px;
+    padding: 0.8rem 1.2rem;
+    min-height: 70px;
   }
 
   .mobile-menu-close {
@@ -259,10 +302,11 @@ img {
     justify-content: center;
     width: 46px;
     transition: background 120ms;
+    flex-shrink: 0;
   }
 
-  .mobile-menu-close:hover {
-    background: rgba(255, 246, 230, 0.18);
+  .mobile-menu-close:active {
+    background: rgba(255, 246, 230, 0.2);
   }
 
   .mobile-menu-nav {
@@ -272,7 +316,7 @@ img {
     flex-direction: column;
     gap: 0;
     justify-content: center;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     width: 100%;
   }
 

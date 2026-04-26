@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import Blog from "./Blog.jsx";
 import heroImage from "./assets/mill-hero.png";
-import logoImage from "./assets/the-milled-table-logo.jpeg";
 import breadFlourImage from "./assets/products/bread-flour.jpg";
 import durumSemolinaImage from "./assets/products/durum-semolina.jpg";
 import einkornFlourImage from "./assets/products/einkorn-flour.jpg";
@@ -166,6 +165,16 @@ function buildShopifyCartUrl(cart) {
   return `${normalizeShopifyDomain(shopifyDomain)}/cart/${lines.join(",")}?${params.toString()}`;
 }
 
+function LogoMark({ variant = "dark" }) {
+  return (
+    <span className={`logo-mark logo-mark--${variant}`} aria-label="Milled Table">
+      <span className="logo-milled">Milled</span>
+      <span className="logo-rule" />
+      <span className="logo-table">Table</span>
+    </span>
+  );
+}
+
 function App() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [cart, setCart] = useState([]);
@@ -241,8 +250,8 @@ function App() {
           <Menu size={22} />
         </button>
 
-        <a className="brand-mark" href="#top" aria-label="The Milled Table home">
-          <img className="brand-logo" src={logoImage} alt="The Milled Table" />
+        <a className="brand-mark" href="#top" aria-label="Milled Table home">
+          <LogoMark variant="dark" />
         </a>
 
         <nav className="site-nav" aria-label="Main navigation">
@@ -270,7 +279,7 @@ function App() {
       {/* Mobile full-screen menu overlay */}
       <div className="mobile-menu" data-open={menuOpen} aria-hidden={!menuOpen}>
         <div className="mobile-menu-top">
-          <img className="mobile-menu-logo" src={logoImage} alt="The Milled Table" />
+          <LogoMark variant="light" />
           <button className="mobile-menu-close" type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu">
             <X size={26} />
           </button>
