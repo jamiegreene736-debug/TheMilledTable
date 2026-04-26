@@ -238,11 +238,7 @@ function App() {
     <div className="site-shell">
       <header className="site-header" data-open={menuOpen}>
         <a className="brand-mark" href="#top" aria-label="The Milled Table home">
-          <img className="brand-logo" src={logoImage} alt="" />
-          <span className="brand-copy">
-            <strong>The Milled</strong>
-            <small>Table</small>
-          </span>
+          <img className="brand-logo" src={logoImage} alt="The Milled Table" />
         </a>
 
         <button className="icon-button menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)}>
