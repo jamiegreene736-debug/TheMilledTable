@@ -19,7 +19,9 @@ import {
 } from "lucide-react";
 import Blog from "./Blog.jsx";
 import heroImage from "./assets/mill-hero.png";
+import logoImage from "./assets/the-milled-table-logo-header.jpeg";
 import breadFlourImage from "./assets/products/bread-flour.jpg";
+import customBlendImage from "./assets/products/custom-blend-builder.jpg";
 import durumSemolinaImage from "./assets/products/durum-semolina.jpg";
 import einkornFlourImage from "./assets/products/einkorn-flour.jpg";
 import pastaBlendImage from "./assets/products/pasta-blend.jpg";
@@ -133,11 +135,146 @@ const processSteps = [
   },
 ];
 
+const MAX_BLEND_WEIGHT = 5;
+const BLEND_STEP = 0.25;
+const CUSTOM_BLEND_BASE_FEE = 4;
+
+const blendFlours = [
+  {
+    id: "bread",
+    name: "Bread Flour",
+    grain: "Hard red spring wheat",
+    role: "Structure, chew, open crumb",
+    pricePerLb: 5.5,
+    color: "#c19a56",
+  },
+  {
+    id: "whole-wheat",
+    name: "Whole Wheat",
+    grain: "Whole hard wheat berry",
+    role: "Wheat aroma, minerals, color",
+    pricePerLb: 5.75,
+    color: "#a76d39",
+  },
+  {
+    id: "rye",
+    name: "Whole Rye",
+    grain: "Organic rye berries",
+    role: "Earthy depth, fermentation energy",
+    pricePerLb: 5,
+    color: "#6f6046",
+  },
+  {
+    id: "einkorn",
+    name: "Einkorn",
+    grain: "Ancient einkorn",
+    role: "Butter sweetness, tender crumb",
+    pricePerLb: 8.5,
+    color: "#d0a45b",
+  },
+  {
+    id: "spelt",
+    name: "Spelt",
+    grain: "Organic spelt",
+    role: "Nutty aroma, extensible dough",
+    pricePerLb: 7.25,
+    color: "#b88445",
+  },
+  {
+    id: "durum",
+    name: "Durum Semolina",
+    grain: "Organic durum wheat",
+    role: "Golden color, pasta bite",
+    pricePerLb: 7,
+    color: "#d8aa35",
+  },
+  {
+    id: "soft-wheat",
+    name: "Soft Wheat",
+    grain: "Soft white wheat",
+    role: "Tender pastry, biscuits, cakes",
+    pricePerLb: 5.25,
+    color: "#dcc68e",
+  },
+  {
+    id: "buckwheat",
+    name: "Buckwheat",
+    grain: "Organic buckwheat groats",
+    role: "Toasty flavor, gluten-free grain note",
+    pricePerLb: 7.75,
+    color: "#806246",
+  },
+  {
+    id: "oat",
+    name: "Oat Flour",
+    grain: "Organic oats",
+    role: "Softness, sweetness, browning",
+    pricePerLb: 6.25,
+    color: "#c9b98d",
+  },
+  {
+    id: "khorasan",
+    name: "Khorasan",
+    grain: "Ancient khorasan wheat",
+    role: "Golden dough, buttery grain",
+    pricePerLb: 8,
+    color: "#c8923f",
+  },
+];
+
+const blendTemplates = [
+  {
+    id: "country-sourdough",
+    name: "Country Sourdough",
+    use: "Open crumb bread",
+    note: "Bread flour backbone with whole wheat and rye for flavor and fermentation.",
+    weights: { bread: 1.75, "whole-wheat": 0.5, rye: 0.25 },
+  },
+  {
+    id: "pizza-focaccia",
+    name: "Pizza & Focaccia",
+    use: "Crisp-chewy crust",
+    note: "Strong wheat with a little semolina and whole grain for color and bite.",
+    weights: { bread: 2, durum: 0.35, "whole-wheat": 0.15 },
+  },
+  {
+    id: "fresh-pasta",
+    name: "Fresh Pasta",
+    use: "Sheets and noodles",
+    note: "Durum semolina plus hard wheat for a golden dough that rolls cleanly.",
+    weights: { durum: 1.5, bread: 0.75, "soft-wheat": 0.25 },
+  },
+  {
+    id: "tender-pastry",
+    name: "Tender Pastry",
+    use: "Biscuits, crusts, cookies",
+    note: "Soft wheat keeps it delicate; oat flour adds sweetness and browning.",
+    weights: { "soft-wheat": 1.75, oat: 0.5, einkorn: 0.25 },
+  },
+  {
+    id: "ancient-grain",
+    name: "Ancient Grain Table",
+    use: "Flavor-forward loaves",
+    note: "Einkorn, spelt, and khorasan make an aromatic heritage blend.",
+    weights: { einkorn: 0.85, spelt: 0.85, khorasan: 0.8 },
+  },
+  {
+    id: "dark-rye",
+    name: "Dark Rye Builder",
+    use: "Rye pans and seeded loaves",
+    note: "Mostly rye with enough bread flour to help structure and lift.",
+    weights: { rye: 2.1, bread: 0.4 },
+  },
+];
+
 function formatCurrency(value) {
+  const hasCents = Math.round(value * 100) % 100 !== 0;
+
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    maximumFractionDigits: 0,
+    minimumFractionDigits: hasCents ? 2 : 0,
+    maximumFractionDigits: hasCents ? 2 : 0,
   }).format(value);
 }
 
@@ -149,6 +286,7 @@ function normalizeShopifyDomain(value) {
 function buildShopifyCartUrl(cart) {
   const lines = cart
     .map((item) => {
+      if (item.type === "blend") return null;
       const product = products.find((entry) => entry.id === item.id);
       if (!product?.variantId) return null;
       return `${product.variantId}:${item.quantity}`;
@@ -166,13 +304,221 @@ function buildShopifyCartUrl(cart) {
   return `${normalizeShopifyDomain(shopifyDomain)}/cart/${lines.join(",")}?${params.toString()}`;
 }
 
-function LogoMark({ variant = "dark" }) {
+function roundToStep(value) {
+  return Math.round(value / BLEND_STEP) * BLEND_STEP;
+}
+
+function formatPounds(value) {
+  return Number.isInteger(value) ? `${value}` : value.toFixed(2).replace(/0$/, "");
+}
+
+function getBlendComponents(weights) {
+  return Object.entries(weights)
+    .filter(([, weight]) => weight > 0)
+    .map(([id, weight]) => ({
+      flour: blendFlours.find((flour) => flour.id === id),
+      weight,
+    }))
+    .filter((entry) => entry.flour);
+}
+
+function calculateBlendPrice(weights) {
+  const flourTotal = getBlendComponents(weights).reduce(
+    (total, { flour, weight }) => total + flour.pricePerLb * weight,
+    0,
+  );
+
+  return Math.round((CUSTOM_BLEND_BASE_FEE + flourTotal) * 100) / 100;
+}
+
+function blendSummary(weights) {
+  return getBlendComponents(weights)
+    .map(({ flour, weight }) => `${flour.name} ${formatPounds(weight)} lb`)
+    .join(" · ");
+}
+
+function BlendBuilder({ onAddBlend }) {
+  const [blendName, setBlendName] = useState("Custom Table Blend");
+  const [weights, setWeights] = useState(blendTemplates[0].weights);
+
+  const components = getBlendComponents(weights);
+  const totalWeight = components.reduce((total, { weight }) => total + weight, 0);
+  const remainingWeight = Math.max(0, MAX_BLEND_WEIGHT - totalWeight);
+  const price = totalWeight > 0 ? calculateBlendPrice(weights) : 0;
+  const pricePerPound = totalWeight > 0 ? price / totalWeight : 0;
+  const activeTemplate = blendTemplates.find((template) => {
+    const ids = new Set([...Object.keys(template.weights), ...Object.keys(weights)]);
+    return [...ids].every((id) => (template.weights[id] || 0) === (weights[id] || 0));
+  });
+
+  function setTemplate(template) {
+    setWeights(template.weights);
+    setBlendName(template.name);
+  }
+
+  function updateWeight(flourId, nextValue) {
+    setWeights((current) => {
+      const currentWeight = current[flourId] || 0;
+      const otherWeight = Object.entries(current)
+        .filter(([id]) => id !== flourId)
+        .reduce((total, [, weight]) => total + weight, 0);
+      const maxForFlour = MAX_BLEND_WEIGHT - otherWeight;
+      const safeWeight = Math.min(Math.max(0, roundToStep(nextValue)), maxForFlour);
+      const next = { ...current, [flourId]: safeWeight };
+
+      if (safeWeight === 0 && currentWeight !== 0) {
+        delete next[flourId];
+      }
+
+      return next;
+    });
+  }
+
+  function resetBlend() {
+    setWeights({});
+    setBlendName("Custom Table Blend");
+  }
+
+  function addBlend() {
+    if (totalWeight <= 0 || totalWeight > MAX_BLEND_WEIGHT) return;
+
+    onAddBlend({
+      key: `blend:${Date.now()}`,
+      type: "blend",
+      name: blendName.trim() || "Custom Table Blend",
+      weight: totalWeight,
+      price,
+      components: components.map(({ flour, weight }) => ({
+        id: flour.id,
+        name: flour.name,
+        weight,
+      })),
+      quantity: 1,
+    });
+  }
+
   return (
-    <span className={`logo-mark logo-mark--${variant}`} aria-label="The Milled Table">
-      <span className="logo-the">The</span>
-      <span className="logo-milled">Milled</span>
-      <span className="logo-table">Table</span>
-    </span>
+    <section className="blend-section" id="blend-builder">
+      <div className="blend-visual">
+        <img src={customBlendImage} alt="Custom flour blend bowls and grains" />
+        <div className="blend-visual-panel">
+          <span>Up to {MAX_BLEND_WEIGHT} lb</span>
+          <strong>{formatPounds(totalWeight)} lb selected</strong>
+          <em>{formatCurrency(price)} estimated</em>
+        </div>
+      </div>
+
+      <div className="blend-workbench">
+        <div className="blend-heading">
+          <p className="section-kicker">
+            <Sparkles size={14} />
+            Custom Flour Builder
+          </p>
+          <h2>Build a flour blend for exactly what you are making.</h2>
+          <p>
+            Pick any combination of our organic flours up to five pounds total. The price updates as
+            you build, and the blend goes into the basket as a Shopify-ready custom line for the next
+            checkout integration step.
+          </p>
+        </div>
+
+        <div className="blend-summary-card">
+          <label className="blend-name-label">
+            Blend name
+            <input value={blendName} onChange={(event) => setBlendName(event.target.value)} />
+          </label>
+          <div className="blend-meters">
+            <div>
+              <span>Total</span>
+              <strong>{formatPounds(totalWeight)} / {MAX_BLEND_WEIGHT} lb</strong>
+            </div>
+            <div>
+              <span>Remaining</span>
+              <strong>{formatPounds(remainingWeight)} lb</strong>
+            </div>
+            <div>
+              <span>Price</span>
+              <strong>{formatCurrency(price)}</strong>
+            </div>
+          </div>
+          <div className="blend-progress" aria-label={`${formatPounds(totalWeight)} pounds selected`}>
+            <span style={{ width: `${Math.min(100, (totalWeight / MAX_BLEND_WEIGHT) * 100)}%` }} />
+          </div>
+          <p className="blend-price-note">
+            Includes a {formatCurrency(CUSTOM_BLEND_BASE_FEE)} custom milling and bagging fee
+            {totalWeight > 0 ? ` · ${formatCurrency(pricePerPound)} per lb blended` : ""}.
+          </p>
+        </div>
+
+        <div className="template-grid" aria-label="Blend templates">
+          {blendTemplates.map((template) => (
+            <button
+              className={activeTemplate?.id === template.id ? "template-card active" : "template-card"}
+              key={template.id}
+              type="button"
+              onClick={() => setTemplate(template)}
+            >
+              <span>{template.use}</span>
+              <strong>{template.name}</strong>
+              <em>{template.note}</em>
+            </button>
+          ))}
+        </div>
+
+        <div className="flour-control-grid">
+          {blendFlours.map((flour) => {
+            const weight = weights[flour.id] || 0;
+            const maxForFlour = Math.min(MAX_BLEND_WEIGHT, weight + remainingWeight);
+            const percent = totalWeight > 0 ? (weight / totalWeight) * 100 : 0;
+
+            return (
+              <article className="flour-control" key={flour.id} style={{ "--flour-color": flour.color }}>
+                <div className="flour-control-top">
+                  <span className="flour-swatch" />
+                  <div>
+                    <h3>{flour.name}</h3>
+                    <p>{flour.grain}</p>
+                  </div>
+                  <strong>{formatCurrency(flour.pricePerLb)}/lb</strong>
+                </div>
+                <p className="flour-role">{flour.role}</p>
+                <div className="flour-range-row">
+                  <button type="button" onClick={() => updateWeight(flour.id, weight - BLEND_STEP)}>
+                    <Minus size={14} />
+                  </button>
+                  <input
+                    aria-label={`${flour.name} pounds`}
+                    max={maxForFlour}
+                    min="0"
+                    step={BLEND_STEP}
+                    type="range"
+                    value={weight}
+                    onChange={(event) => updateWeight(flour.id, Number(event.target.value))}
+                  />
+                  <button type="button" onClick={() => updateWeight(flour.id, weight + BLEND_STEP)}>
+                    <Plus size={14} />
+                  </button>
+                </div>
+                <div className="flour-control-bottom">
+                  <span>{formatPounds(weight)} lb</span>
+                  <span>{Math.round(percent)}%</span>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="blend-actions">
+          <button className="secondary-blend-action" type="button" onClick={resetBlend}>
+            Reset blend
+          </button>
+          <button className="primary-blend-action" type="button" onClick={addBlend} disabled={totalWeight <= 0}>
+            Add custom blend
+            <ArrowRight size={17} />
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -191,10 +537,29 @@ function Store() {
 
   const cartItems = useMemo(
     () =>
-      cart.map((item) => ({
-        ...item,
-        product: products.find((product) => product.id === item.id),
-      })),
+      cart
+        .map((item) => {
+          if (item.type === "blend") {
+            return {
+              ...item,
+              product: {
+                id: item.key,
+                name: item.name,
+                price: item.price,
+                weight: `${formatPounds(item.weight)} lb custom blend`,
+              },
+              detail: item.components
+                .map((component) => `${component.name} ${formatPounds(component.weight)} lb`)
+                .join(" · "),
+            };
+          }
+
+          return {
+            ...item,
+            product: products.find((product) => product.id === item.id),
+          };
+        })
+        .filter((item) => item.product),
     [cart],
   );
 
@@ -204,24 +569,31 @@ function Store() {
 
   function addToCart(productId) {
     setCart((items) => {
-      const current = items.find((item) => item.id === productId);
+      const current = items.find((item) => item.type !== "blend" && item.id === productId);
       if (current) {
         return items.map((item) =>
-          item.id === productId ? { ...item, quantity: item.quantity + 1 } : item,
+          item.type !== "blend" && item.id === productId ? { ...item, quantity: item.quantity + 1 } : item,
         );
       }
-      return [...items, { id: productId, quantity: 1 }];
+      return [...items, { id: productId, type: "product", quantity: 1 }];
     });
     setCartOpen(true);
     setNotice("Added to basket");
     window.setTimeout(() => setNotice(""), 1600);
   }
 
-  function updateQuantity(productId, direction) {
+  function addBlendToCart(blend) {
+    setCart((items) => [...items, blend]);
+    setCartOpen(true);
+    setNotice("Custom blend added to basket");
+    window.setTimeout(() => setNotice(""), 1800);
+  }
+
+  function updateQuantity(itemKey, direction) {
     setCart((items) =>
       items
         .map((item) =>
-          item.id === productId
+          (item.key || item.id) === itemKey
             ? { ...item, quantity: Math.max(0, item.quantity + direction) }
             : item,
         )
@@ -252,11 +624,12 @@ function Store() {
         </button>
 
         <a className="brand-mark" href="#top" aria-label="Milled Table home">
-          <LogoMark variant="dark" />
+          <img className="brand-logo-image" src={logoImage} alt="The Milled Table" />
         </a>
 
         <nav className="site-nav" aria-label="Main navigation">
           <a href="#flours">Flours</a>
+          <a href="#blend-builder">Custom Blend</a>
           <a href="#milling">Milling</a>
           <a href="#standards">Standards</a>
           <button
@@ -280,13 +653,14 @@ function Store() {
       {/* Mobile full-screen menu overlay */}
       <div className="mobile-menu" data-open={menuOpen} aria-hidden={!menuOpen}>
         <div className="mobile-menu-top">
-          <LogoMark variant="light" />
+          <img className="mobile-menu-logo" src={logoImage} alt="The Milled Table" />
           <button className="mobile-menu-close" type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu">
             <X size={26} />
           </button>
         </div>
         <nav className="mobile-menu-nav">
           <a href="#flours" onClick={() => setMenuOpen(false)}>Flours</a>
+          <a href="#blend-builder" onClick={() => setMenuOpen(false)}>Custom Blend</a>
           <a href="#milling" onClick={() => setMenuOpen(false)}>Milling</a>
           <a href="#standards" onClick={() => setMenuOpen(false)}>Standards</a>
           <button
@@ -415,6 +789,8 @@ function Store() {
             ))}
           </div>
         </section>
+
+        <BlendBuilder onAddBlend={addBlendToCart} />
 
         <div className="photo-strip" aria-hidden="true">
           {[breadFlourImage, ryeFlourImage, einkornFlourImage, durumSemolinaImage, pastryFlourImage, pastaBlendImage].map((img, i) => (
@@ -572,13 +948,14 @@ function Store() {
                 <p>Your basket is ready for a fresh milling drop.</p>
               </div>
             ) : (
-              cartItems.map(({ product, quantity }) => (
+              cartItems.map(({ product, quantity, detail }) => (
                 <div className="cart-line" key={product.id}>
                   <div>
                     <strong>{product.name}</strong>
                     <span>
                       {product.weight} · {formatCurrency(product.price)}
                     </span>
+                    {detail && <em>{detail}</em>}
                   </div>
                   <div className="quantity-controls">
                     <button type="button" onClick={() => updateQuantity(product.id, -1)}>
@@ -608,7 +985,10 @@ function Store() {
               <ArrowRight size={18} />
             </a>
             {!checkoutUrl && (
-              <p className="checkout-note">Checkout activates when Shopify variant IDs are added.</p>
+              <p className="checkout-note">
+                Checkout activates when Shopify variant IDs are added. Custom blends are priced here
+                and ready to map to a Shopify custom product in the next step.
+              </p>
             )}
           </div>
         </div>
