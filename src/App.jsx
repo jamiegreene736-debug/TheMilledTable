@@ -15,6 +15,7 @@ import {
   ShoppingBag,
   Sparkles,
   Sprout,
+  Truck,
   X,
 } from "lucide-react";
 import Blog from "./Blog.jsx";
@@ -117,6 +118,7 @@ const promises = [
   "A no-glyphosate-desiccation sourcing standard",
   "Proper milling in smaller batches for aroma, nutrition, and dough feel",
   "Flours chosen by use case: pasta, bread, pastry, pizza, and daily baking",
+  "Fresh milled flour shipped across the nation",
 ];
 
 const processSteps = [
@@ -762,6 +764,10 @@ function Store() {
               <PackageCheck size={17} />
               Table-ready flour
             </span>
+            <span>
+              <Truck size={17} />
+              Ships nationwide
+            </span>
           </div>
         </section>
 
@@ -793,6 +799,10 @@ function Store() {
             <div>
               <p className="section-kicker">Fresh Flour Drops</p>
               <h2>Choose by what you are making.</h2>
+              <p className="shipping-note">
+                <Truck size={16} />
+                Fresh milled orders ship across the nation.
+              </p>
             </div>
             <div className="category-tabs" aria-label="Filter flour by use">
               {categories.map((category) => (
