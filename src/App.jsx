@@ -460,18 +460,52 @@ function BlendBuilder({ onAddBlend }) {
         </div>
 
         <div className="template-grid" aria-label="Blend templates">
-          {blendTemplates.map((template) => (
-            <button
-              className={activeTemplate?.id === template.id ? "template-card active" : "template-card"}
-              key={template.id}
-              type="button"
-              onClick={() => setTemplate(template)}
-            >
-              <span>{template.use}</span>
-              <strong>{template.name}</strong>
-              <em>{template.note}</em>
-            </button>
-          ))}
+          {blendTemplates.map((template) => {
+            const templateComponents = getBlendComponents(template.weights);
+            const templateWeight = templateComponents.reduce((total, { weight }) => total + weight, 0);
+
+            return (
+              <button
+                className={activeTemplate?.id === template.id ? "template-card active" : "template-card"}
+                key={template.id}
+                type="button"
+                onClick={() => setTemplate(template)}
+              >
+                <span className="template-use">
+                  {template.use}
+                  <small>
+                    {templateComponents.length} flour{templateComponents.length === 1 ? "" : "s"}
+                  </small>
+                </span>
+                <strong>{template.name}</strong>
+                <div className="template-mix-bar" aria-hidden="true">
+                  {templateComponents.map(({ flour, weight }) => (
+                    <i
+                      key={flour.id}
+                      style={{
+                        "--mix-color": flour.color,
+                        width: `${(weight / templateWeight) * 100}%`,
+                      }}
+                    />
+                  ))}
+                </div>
+                <div className="template-flour-list" aria-label={`${template.name} flour mix`}>
+                  {templateComponents.map(({ flour, weight }) => (
+                    <span
+                      className="template-flour-chip"
+                      key={flour.id}
+                      style={{ "--mix-color": flour.color }}
+                    >
+                      <i aria-hidden="true" />
+                      {flour.name}
+                      <b>{formatPounds(weight)} lb</b>
+                    </span>
+                  ))}
+                </div>
+                <em>{template.note}</em>
+              </button>
+            );
+          })}
         </div>
 
         <div className="flour-control-grid">
