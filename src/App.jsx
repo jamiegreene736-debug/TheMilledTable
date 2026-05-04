@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import Blog from "./Blog.jsx";
 import heroImage from "./assets/mill-hero.png";
-import logoImage from "./assets/the-milled-table-logo-header.jpeg";
 import breadFlourImage from "./assets/products/bread-flour.jpg";
 import customBlendImage from "./assets/products/custom-blend-builder.jpg";
 import durumSemolinaImage from "./assets/products/durum-semolina.jpg";
@@ -302,6 +301,16 @@ function buildShopifyCartUrl(cart) {
   });
 
   return `${normalizeShopifyDomain(shopifyDomain)}/cart/${lines.join(",")}?${params.toString()}`;
+}
+
+function LogoMark({ variant = "dark" }) {
+  return (
+    <span className={`logo-mark logo-mark--${variant}`} aria-label="The Milled Table">
+      <span className="logo-the">The</span>
+      <span className="logo-milled">Milled</span>
+      <span className="logo-table">Table</span>
+    </span>
+  );
 }
 
 function roundToStep(value) {
@@ -624,7 +633,7 @@ function Store() {
         </button>
 
         <a className="brand-mark" href="#top" aria-label="Milled Table home">
-          <img className="brand-logo-image" src={logoImage} alt="The Milled Table" />
+          <LogoMark variant="dark" />
         </a>
 
         <nav className="site-nav" aria-label="Main navigation">
@@ -653,7 +662,7 @@ function Store() {
       {/* Mobile full-screen menu overlay */}
       <div className="mobile-menu" data-open={menuOpen} aria-hidden={!menuOpen}>
         <div className="mobile-menu-top">
-          <img className="mobile-menu-logo" src={logoImage} alt="The Milled Table" />
+          <LogoMark variant="light" />
           <button className="mobile-menu-close" type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu">
             <X size={26} />
           </button>
